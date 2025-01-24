@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+import os
+import sys
+
+env = SConscript("godot-cpp/SConstruct")
+
+# For reference:
+# - CCFLAGS are compilation flags shared between C and C++
+# - CFLAGS are for C-specific compilation flags
+# - CXXFLAGS are for C++-specific compilation flags
+# - CPPFLAGS are for pre-processor flags
+# - CPPDEFINES are for pre-processor defines
+# - LINKFLAGS are for linking flags
+
+# tweak this if you want to use different folders, or more folders, to store your source code in.
+env.Append(CPPPATH=["src/"])
+sources = Glob("src/*.cpp")
+
+if env["platform"] == "macos":
+    library = env.SharedLibrary(
+        "../kinect-bubbles/bin/kinect-godot.{}.{}.framework/kinect-godot.{}.{}".format(
+            env["platform"], env["target"], env["platform"], env["target"]
+        ),
+        source=sources,
+    )
+elif env["platform"] == "ios":
+    if env["ios_simulator"]:
+        library = env.StaticLibrary(
+            "../kinect-bubbles/bin/kinect-godot.{}.{}.simulator.a".format(env["platform"], env["target"]),
+            source=sources,
+        )
+    else:
+        library = env.StaticLibrary(
+            "../kinect-bubbles/bin/kinect-godot.{}.{}.a".format(env["platform"], env["target"]),
+            source=sources,
+        )
+else:
+    if env["platform"] == "windows":
+        env.AppendUnique(CPPPATH=['C:/Program Files/Microsoft SDKs/Kinect/v2.0_1409/inc'])
+        env.AppendUnique(LIBPATH=['C:/Program Files/Microsoft SDKs/Kinect/v2.0_1409/Lib/x64'])
+        env.AppendUnique(LIBS=['Kinect20.lib'])
+    elif env["platform"] == "linux":
+        env.AppendUnique(LIBPATH=['/usr/lib'])
+        env.AppendUnique(LIBS=['freenect2'])
+
+    library = env.SharedLibrary(
+        "../kinect-bubbles/bin/kinect-godot{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        source=sources,
+    )
+
+Default(library)
