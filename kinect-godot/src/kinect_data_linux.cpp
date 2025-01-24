@@ -15,6 +15,11 @@ void releaseKinect(KinectData* kinect) {
     // nop
 }
 
+int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, KinectBody* result_bodies) {
+    // nop
+    return 0;
+}
+
 #ifdef __cplusplus
 }
 #endif
