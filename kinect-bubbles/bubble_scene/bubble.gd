@@ -4,10 +4,10 @@ func pop():
 	$AnimatedSprite3D.play("pop")
 	
 func _ready() -> void:
-	#pop()
-	#rotate_sprite(1)
+	rotate_sprite(1)
+	pop()
 	pass
-#
+
 var rotation_axis = Vector3(0, 0, 1) 
 var rotation_amount = 0.1
 var total_rotation = 0.0
