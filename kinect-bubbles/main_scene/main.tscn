@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://oxviehss10nk"]
+[gd_scene load_steps=9 format=3 uid="uid://oxviehss10nk"]
 
 [ext_resource type="Texture2D" uid="uid://dduudmq11w0j1" path="res://assets/Bubblecloudsgraphic--1r441c2m589g8g4n56/clouds.svg" id="1_00i0w"]
 [ext_resource type="PackedScene" uid="uid://baub1oa31fdou" path="res://bubble_scene/bubble.tscn" id="2_b0l3n"]
+[ext_resource type="PackedScene" uid="uid://ck8v55aaqddto" path="res://player.tscn" id="3_ju4gu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8ocqn"]
 size = Vector3(60, 2, 30)
@@ -52,3 +53,5 @@ shape = SubResource("BoxShape3D_gkwe4")
 
 [node name="Bubble" parent="." instance=ExtResource("2_b0l3n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.1076, 7.86547)
+
+[node name="player" parent="." instance=ExtResource("3_ju4gu")]
