@@ -24,6 +24,10 @@ window/size/viewport_height=2160
 
 project/assembly_name="kinect-bubbles"
 
+[global_group]
+
+bubble=""
+
 [input]
 
 move_left={
