@@ -1,6 +1,7 @@
 #include "register_types.h"
 
 #include "kinect_node.h"
+#include "kinect_data.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
@@ -14,6 +15,9 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
 	}
 
 	GDREGISTER_CLASS(KinectNode);
+	GDREGISTER_CLASS(KinectBody);
+	// GDREGISTER_CLASS(KinectJoint);
+	GDREGISTER_CLASS(Test);
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {

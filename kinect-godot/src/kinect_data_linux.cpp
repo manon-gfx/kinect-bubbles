@@ -1,12 +1,10 @@
 #ifndef _WIN32
 
+using namespace godot;
+
 struct KinectData {
     int dummy;
 };
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 KinectData* initializeKinect() {
     return nullptr;
@@ -19,9 +17,5 @@ int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, KinectBody
     // nop
     return 0;
 }
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif
