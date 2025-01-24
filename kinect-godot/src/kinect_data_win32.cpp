@@ -5,6 +5,8 @@
 #include "kinect_data.h"
 #include "logging.h"
 
+using namespace godot;
+
 #define CRASH() (*(volatile int*)0 = 1337)
 #define ASSERT(x, msg, ...) do {                                               \
     if (!(x)) {                                                                \
@@ -14,6 +16,7 @@
         CRASH();                                                               \
     }                                                                          \
 } while (false)
+
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 struct KinectData {
@@ -24,10 +27,6 @@ struct KinectData {
     IBodyFrameSource* body_frame_source;
     IBodyFrameReader* body_frame_reader;
 };
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 KinectData* initializeKinect() {
     IKinectSensor* kinect = nullptr;
@@ -92,55 +91,77 @@ void releaseKinect(KinectData* kinect) {
 }
 
 int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, KinectBody* result_bodies) {
-    IBodyFrame* body_frame;
-    kinect->body_frame_reader->AcquireLatestFrame(&body_frame);
+    body_capacity = MIN(body_capacity, BODY_COUNT);
 
-    body_capacity = MIN(body_capacity, 4);
+    IBodyFrame* body_frame = nullptr;
+    HRESULT hr = kinect->body_frame_reader->AcquireLatestFrame(&body_frame);
+    if (FAILED(hr)) {
+        return 0;
+    }
+    ASSERT(SUCCEEDED(hr), "Failed to get a body frame :(. HRESULT: 0x%x", hr);
+    ASSERT(body_frame, "Failed to get a body frame :( NULL");
 
-    IBody* bodies[4];
-    body_frame->GetAndRefreshBodyData(body_capacity, bodies);
-
-    int body_count = 0;
-    for (int i = 0; i < body_capacity; ++i) {
-        if (bodies[i] == nullptr) {
-            break;
-        }
-        KinectBody* result_body = &result_bodies[i];
-
-        HandState left_hand_state;
-        bodies[i]->get_HandLeftState(&left_hand_state);
-        result_body->left_hand_state = (KinectHandState)left_hand_state;
-
-        HandState right_hand_state;
-        bodies[i]->get_HandRightState(&right_hand_state);
-        result_body->right_hand_state = (KinectHandState)right_hand_state;
-
-        Joint joints[JointType_Count];
-        bodies[i]->GetJoints(JointType_Count, joints);
-
-        JointOrientation joint_orientations[JointType_Count];
-        bodies[i]->GetJointOrientations(JointType_Count, joint_orientations);
-
-        for (int j = 0; j < JointType_Count; ++j) {
-            int joint_type = joints[j].JointType;
-            result_body->joints[joint_type].position[0] = joints[j].Position.X;
-            result_body->joints[joint_type].position[1] = joints[j].Position.Y;
-            result_body->joints[joint_type].position[2] = joints[j].Position.Z;
-
-            joint_type = joint_orientations[j].JointType;
-            result_body->joints[joint_type].orientation[0] = joint_orientations[j].Orientation.x;
-            result_body->joints[joint_type].orientation[1] = joint_orientations[j].Orientation.y;
-            result_body->joints[joint_type].orientation[2] = joint_orientations[j].Orientation.z;
-            result_body->joints[joint_type].orientation[2] = joint_orientations[j].Orientation.w;
-        }
-        body_count += 1;
+    IBody* bodies[BODY_COUNT] = {};
+    hr = body_frame->GetAndRefreshBodyData(BODY_COUNT, bodies);
+    if (FAILED(hr)) {
+        log_error("Failed to get and refresh body data hr 0x%x", hr);
+        body_frame->Release();
+        return 0;
     }
 
+    int body_count = 0;
+    for (int i = 0; i < BODY_COUNT; ++i) {
+        if (bodies[i] == nullptr) {
+            continue;
+        }
+
+        KinectBody* result_body = &result_bodies[body_count];
+
+        BOOLEAN is_tracked = FALSE;
+        HRESULT hr = bodies[i]->get_IsTracked(&is_tracked);
+        if (SUCCEEDED(hr) && is_tracked) {
+            result_body->valid = true;
+
+            HandState left_hand_state;
+            bodies[i]->get_HandLeftState(&left_hand_state);
+            result_body->left_hand_state = (KinectHandState)left_hand_state;
+
+            HandState right_hand_state;
+            bodies[i]->get_HandRightState(&right_hand_state);
+            result_body->right_hand_state = (KinectHandState)right_hand_state;
+
+            Joint joints[JointType_Count];
+            bodies[i]->GetJoints(JointType_Count, joints);
+
+            JointOrientation joint_orientations[JointType_Count];
+            bodies[i]->GetJointOrientations(JointType_Count, joint_orientations);
+
+            for (int j = 0; j < JointType_Count; ++j) {
+                int joint_type = joints[j].JointType;
+                result_body->joint_positions[joint_type].x = joints[j].Position.X;
+                result_body->joint_positions[joint_type].y = joints[j].Position.Y;
+                result_body->joint_positions[joint_type].z = joints[j].Position.Z;
+
+                joint_type = joint_orientations[j].JointType;
+                result_body->joint_orientations[joint_type].x = joint_orientations[j].Orientation.x;
+                result_body->joint_orientations[joint_type].y = joint_orientations[j].Orientation.y;
+                result_body->joint_orientations[joint_type].z = joint_orientations[j].Orientation.z;
+                result_body->joint_orientations[joint_type].w = joint_orientations[j].Orientation.w;
+            }
+
+            result_body->valid = true;
+            body_count += 1;
+        }
+    }
+
+    for (int i = 0; i < BODY_COUNT; ++i) {
+        if (bodies[i] != nullptr) {
+            bodies[i]->Release();
+        }
+    }
+
+    body_frame->Release();
     return body_count;
 }
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif
