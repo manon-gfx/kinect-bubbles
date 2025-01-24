@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck8v55aaqddto"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_hox1e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ls77x"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xg3w4"]
+
+[node name="player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.626724, 0.890458)
+script = ExtResource("1_hox1e")
+
+[node name="pivot" type="Node3D" parent="."]
+
+[node name="top" type="CSGSphere3D" parent="pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3058, 0)
+material = SubResource("StandardMaterial3D_ls77x")
+
+[node name="bottom" type="CSGSphere3D" parent="pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.107942, 0)
+material = SubResource("StandardMaterial3D_ls77x")
+
+[node name="mid" type="CSGSphere3D" parent="pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12681, 0)
+material = SubResource("StandardMaterial3D_ls77x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_xg3w4")
