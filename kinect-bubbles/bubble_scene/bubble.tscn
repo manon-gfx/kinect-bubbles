@@ -1,0 +1,61 @@
+[gd_scene load_steps=11 format=3 uid="uid://baub1oa31fdou"]
+
+[ext_resource type="Script" path="res://bubble_scene/bubble.gd" id="1_fhebr"]
+[ext_resource type="Texture2D" uid="uid://rycwrqruicrn" path="res://assets/bubble_pop_one/bubble_pop_frame_01.png" id="1_l73p2"]
+[ext_resource type="Texture2D" uid="uid://hip8pud05ys3" path="res://assets/bubble_pop_one/bubble_pop_frame_02.png" id="3_eexde"]
+[ext_resource type="Texture2D" uid="uid://nmk15uuj3cvh" path="res://assets/bubble_pop_one/bubble_pop_frame_03.png" id="4_m7853"]
+[ext_resource type="Texture2D" uid="uid://mus7h5f8uj27" path="res://assets/bubble_pop_one/bubble_pop_frame_04.png" id="5_1c32w"]
+[ext_resource type="Texture2D" uid="uid://b54ke8hvwwlo6" path="res://assets/bubble_pop_one/bubble_pop_frame_05.png" id="6_bao2c"]
+[ext_resource type="Texture2D" uid="uid://d0kftfa151j5a" path="res://assets/bubble_pop_one/bubble_pop_frame_06.png" id="7_6o7a4"]
+[ext_resource type="Texture2D" uid="uid://bvbf3a2hkvla1" path="res://assets/bubble_pop_one/bubble_pop_frame_07.png" id="8_r0bva"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_f0wcd"]
+radius = 1.8
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mdmi8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_l73p2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_l73p2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_eexde")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_m7853")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1c32w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bao2c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_6o7a4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_r0bva")
+}],
+"loop": true,
+"name": &"pop",
+"speed": 10.0
+}]
+
+[node name="Bubble" type="CharacterBody3D"]
+script = ExtResource("1_fhebr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_f0wcd")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+sprite_frames = SubResource("SpriteFrames_mdmi8")
+animation = &"pop"
+frame_progress = 0.975219
