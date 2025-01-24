@@ -2,13 +2,16 @@
 
 [ext_resource type="Texture2D" uid="uid://dduudmq11w0j1" path="res://assets/Bubblecloudsgraphic--1r441c2m589g8g4n56/clouds.svg" id="1_00i0w"]
 [ext_resource type="PackedScene" uid="uid://baub1oa31fdou" path="res://bubble_scene/bubble.tscn" id="2_b0l3n"]
-[ext_resource type="PackedScene" uid="uid://ck8v55aaqddto" path="res://player.tscn" id="3_ju4gu"]
+[ext_resource type="PackedScene" path="res://player.tscn" id="3_ju4gu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8ocqn"]
 size = Vector3(60, 2, 30)
 
 [sub_resource type="BoxMesh" id="BoxMesh_iv1ns"]
 size = Vector3(60, 2, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gkwe4"]
+size = Vector3(60, 35, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_weqay"]
 albedo_texture = ExtResource("1_00i0w")
@@ -17,9 +20,6 @@ albedo_texture = ExtResource("1_00i0w")
 material = SubResource("StandardMaterial3D_weqay")
 size = Vector2(60, 35)
 orientation = 2
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_gkwe4"]
-size = Vector3(60, 35, 1)
 
 [node name="Main" type="Node"]
 
@@ -32,6 +32,16 @@ shape = SubResource("BoxShape3D_8ocqn")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("BoxMesh_iv1ns")
 
+[node name="Background" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Background"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, -0.9)
+shape = SubResource("BoxShape3D_gkwe4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Background"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 0)
+mesh = SubResource("PlaneMesh_uvaey")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.258819, -0.965926, 0, 0.482963, -0.12941, 0.866026, -0.836516, 0.224144, 0.5, 0, 21, 38)
 shadow_enabled = true
@@ -39,17 +49,7 @@ shadow_enabled = true
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 18)
-
-[node name="Area3D" type="Area3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 0)
-mesh = SubResource("PlaneMesh_uvaey")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 0)
-shape = SubResource("BoxShape3D_gkwe4")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 27)
 
 [node name="Bubble" parent="." instance=ExtResource("2_b0l3n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.1076, 7.86547)
