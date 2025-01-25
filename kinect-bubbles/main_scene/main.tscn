@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://oxviehss10nk"]
+[gd_scene load_steps=10 format=3 uid="uid://oxviehss10nk"]
 
 [ext_resource type="Texture2D" uid="uid://dduudmq11w0j1" path="res://assets/Bubblecloudsgraphic--1r441c2m589g8g4n56/clouds.svg" id="1_00i0w"]
+[ext_resource type="Script" path="res://main_scene/main.gd" id="1_l0gup"]
 [ext_resource type="PackedScene" uid="uid://baub1oa31fdou" path="res://bubble_scene/bubble.tscn" id="2_b0l3n"]
 [ext_resource type="PackedScene" uid="uid://ck8v55aaqddto" path="res://player.tscn" id="3_ju4gu"]
 
@@ -22,6 +23,8 @@ size = Vector2(60, 35)
 orientation = 2
 
 [node name="Main" type="Node"]
+script = ExtResource("1_l0gup")
+bubble_scene = ExtResource("2_b0l3n")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 15)

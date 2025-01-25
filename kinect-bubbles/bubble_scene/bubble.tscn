@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://baub1oa31fdou"]
+[gd_scene load_steps=13 format=3 uid="uid://baub1oa31fdou"]
 
 [ext_resource type="Script" path="res://bubble_scene/bubble.gd" id="1_fhebr"]
 [ext_resource type="Texture2D" uid="uid://rycwrqruicrn" path="res://assets/bubble_pop_one/bubble_pop_frame_01.png" id="1_l73p2"]
@@ -53,6 +53,10 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="SphereMesh" id="SphereMesh_cgwdp"]
+radius = 1.8
+height = 3.6
+
 [node name="Bubble" type="CharacterBody3D" groups=["bubble"]]
 script = ExtResource("1_fhebr")
 
@@ -63,5 +67,8 @@ shape = SubResource("SphereShape3D_f0wcd")
 sprite_frames = SubResource("SpriteFrames_mdmi8")
 animation = &"pop"
 frame_progress = 0.975219
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_cgwdp")
 
 [connection signal="animation_finished" from="AnimatedSprite3D" to="." method="_on_animated_sprite_3d_animation_finished"]
