@@ -50,13 +50,10 @@ func _physics_process(delta):
 		if collision.get_collider().is_in_group("bubble"):
 			var bubble = collision.get_collider()
 			bubble.pop()
-			# we check that we are hitting it from above.
-			#if Vector3.UP.dot(collision.get_normal()) > 0.1:
-				# If so, we squash it and bounce.
-				#mob.squash()
-				#target_velocity.y = bounce_impulse
-				# Prevent further duplicate calls.
-				#break
+		
+		if collision.get_collider().is_in_group("spiky_object"):
+			var spike = collision.get_collider()
+			spike.touched_spike()
 	# Moving the Character
 	velocity = target_velocity
 	move_and_slide()

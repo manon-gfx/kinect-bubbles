@@ -27,6 +27,7 @@ project/assembly_name="kinect-bubbles"
 [global_group]
 
 bubble=""
+spiky_object=""
 
 [input]
 
