@@ -1,7 +1,7 @@
 extends Node3D
 
 var kinect_node = null;
-
+var player_size = 5.0
 var bones = [
 	# core
 	[KinectBody.JointID_SpineBase, KinectBody.JointID_SpineMid],
