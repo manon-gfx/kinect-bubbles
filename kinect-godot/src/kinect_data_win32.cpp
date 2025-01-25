@@ -90,7 +90,7 @@ void releaseKinect(KinectData* kinect) {
     free(kinect);
 }
 
-int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, KinectBody* result_bodies) {
+int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, godot::Ref<KinectBody>* result_bodies) {
     body_capacity = MIN(body_capacity, BODY_COUNT);
 
     IBodyFrame* body_frame = nullptr;
@@ -115,7 +115,7 @@ int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, KinectBody
             continue;
         }
 
-        KinectBody* result_body = &result_bodies[body_count];
+        KinectBody* result_body = result_bodies[body_count].ptr();
 
         BOOLEAN is_tracked = FALSE;
         HRESULT hr = bodies[i]->get_IsTracked(&is_tracked);

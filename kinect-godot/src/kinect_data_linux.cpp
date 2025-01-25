@@ -13,7 +13,7 @@ void releaseKinect(KinectData* kinect) {
     // nop
 }
 
-int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, KinectBody* result_bodies) {
+int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, godot::Ref<KinectBody>* result_bodies) {
     // nop
     return 0;
 }

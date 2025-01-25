@@ -28,13 +28,11 @@ public:
 	void _ready() override;
 	void _process(double delta) override;
 
-	KinectBody fetch_data();
-
-	Test* test(float value);
-
-	Ref<KinectBody> get_body();
+	void refresh_bodies(); // refresh locally cached bodies
+	Ref<KinectBody> get_body(int index); // body getter
 
 	KinectData* kinect = nullptr;
+	std::vector<Ref<KinectBody>> bodies;
 	bool first = true;
 };
 

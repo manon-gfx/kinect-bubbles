@@ -9,23 +9,27 @@ void Test::_bind_methods() {
 }
 
 void KinectNode::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("test", "value"), &KinectNode::test);
-    ClassDB::bind_method(D_METHOD("get_body"), &KinectNode::get_body);
+    ClassDB::bind_method(D_METHOD("refresh_bodies"), &KinectNode::refresh_bodies);
+    ClassDB::bind_method(D_METHOD("get_body", "index"), &KinectNode::get_body);
 }
 
 KinectNode::KinectNode() {
 	// Initialize any variables here.
+    for (int i = 0; i < 6; ++i) {
+        Ref<KinectBody> body;
+        body.instantiate();
+        this->bodies.push_back(body);
+    }
 }
 
 KinectNode::~KinectNode() {
 	// Add your cleanup here.
-
     log_error("Closing kinect");
     releaseKinect(this->kinect);
 }
 
 void KinectNode::_ready() {
-    log_error("Looking for a kinect");
+    log_error("Looking for a kinect . . .");
     this->kinect = initializeKinect();
     this->first = false;
     if (this->kinect == nullptr) {
@@ -35,28 +39,17 @@ void KinectNode::_ready() {
     }
 }
 
-Test* KinectNode::test(float value) {
-    // log_error("test! %f", value);
-
-    return nullptr;
-}
-
-Ref<KinectBody> KinectNode::get_body() {
-    Ref<KinectBody> result;
-
+void KinectNode::refresh_bodies() {
     if (this->kinect) {
-        result.instantiate();
-        fetchKinectBodies(this->kinect, 1, result.ptr());
+        fetchKinectBodies(this->kinect, this->bodies.size(), this->bodies.data());
     } else {
-        log_error("no kinect :(");
+        // log_error("no kinect :(");
     }
-
-    return result;
+}
+Ref<KinectBody> KinectNode::get_body(int index) {
+    return this->bodies[index];
 }
 
 void KinectNode::_process(double delta) {
-    // // Try to init the kinect once
-    // if (this->first) {
-
-    // }
+    this->refresh_bodies();
 }

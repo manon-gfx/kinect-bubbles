@@ -47,15 +47,6 @@ enum KinectHandState {
     KinectHandState_Lasso = 4,
 };
 
-// class KinectJoint{//}: public godot::Object {
-//     // GDCLASS(KinectJoint, godot::Object)
-// public:
-// 	static void _bind_methods();
-
-//     float position[3];
-//     float orientation[4];
-// };
-
 class KinectBody: public godot::RefCounted {
     GDCLASS(KinectBody, godot::RefCounted)
 public:
@@ -64,18 +55,31 @@ public:
     bool valid = false;
     KinectHandState left_hand_state = KinectHandState_Unknown;
     KinectHandState right_hand_state = KinectHandState_Unknown;
-    // KinectJoint joints[JointID_Count];
     godot::Vector3 joint_positions[JointID_Count];
     godot::Vector4 joint_orientations[JointID_Count];
 
     int get_valid() { return valid; }
     int get_left_hand_state() { return left_hand_state; }
     int get_right_hand_state() { return right_hand_state; }
+    godot::Vector3 get_joint_position(unsigned int index) {
+        if (index < JointID_Count) {
+            return joint_positions[index];
+        } else {
+            return godot::Vector3();
+        }
+    }
+    godot::Vector4 get_joint_orientation(unsigned int index) {
+        if (index < JointID_Count) {
+            return joint_orientations[index];
+        } else {
+            return godot::Vector4();
+        }
+    }
 };
 
 KinectData* initializeKinect();
 void releaseKinect(KinectData* kinect);
-int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, KinectBody* result_bodies);
+int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, godot::Ref<KinectBody>* result_bodies);
 
 // C++ Wrapper around C interface
 class RaiiKinect {
@@ -89,3 +93,5 @@ public:
 
     KinectData* kinect_data = nullptr;
 };
+
+VARIANT_ENUM_CAST(KinectJointID)
