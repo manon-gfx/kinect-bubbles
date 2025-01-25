@@ -4,5 +4,3 @@
 
 [node name="KinectPlayer" type="Node3D"]
 script = ExtResource("1_h2p46")
-
-[node name="KinectNode" type="KinectNode" parent="."]
