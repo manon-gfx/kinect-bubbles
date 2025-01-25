@@ -10,6 +10,7 @@ var min_y
 var max_y
 var min_z
 var max_z
+var offset = 2
 
 var number_of_bubbles = 10
 var number_of_spikes = 5
@@ -54,28 +55,39 @@ func _ready() -> void:
 		add_spike_in_random_loc(rng)
 	if not $KinectPlayer.has_a_kinect:
 		$player.queue_free()
-	
+
+func calc_spawn_location(rng):
+	match rng.randi() % 4:
+		0:
+			spawn_location = Vector3(min_x - offset, rng.randf_range(min_y, max_y), Z_COORD_COLLIDERS)
+		1:
+			spawn_location = Vector3(max_x + offset, rng.randf_range(min_y, max_y), Z_COORD_COLLIDERS)
+		2:
+			spawn_location = Vector3(rng.randf_range(min_x, max_x), min_y - offset, Z_COORD_COLLIDERS)
+		3:
+			spawn_location = Vector3(rng.randf_range(min_x, max_x), max_y + offset, Z_COORD_COLLIDERS)
+
+	return spawn_location
+
 func add_bubble_in_random_loc(rng):
-		var bubble = bubble_scene.instantiate()
-		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), Z_COORD_COLLIDERS)
-		#print(spawn_location)
-		# bubble initialize: pos, radius, name
-		bubble.initialize(spawn_location, rng.randf_range(0.1,1.1), rng.randi())
-		# Spawn the bubble by adding it to the Main scene.
-		add_child(bubble)
-		bubble.popped.connect($UserInterface._on_bubble_popped)
+	# bubble initialize: pos, radius, name
+	var bubble = bubble_scene.instantiate()
+	bubble.initialize(calc_spawn_location(rng), rng.randf_range(0.1,1.1), rng.randi())
+
+	# Spawn the bubble by adding it to the Main scene.
+	add_child(bubble)
+	bubble.popped.connect($UserInterface._on_bubble_popped)
 
 func add_spike_in_random_loc(rng):
-		var spike = spike_scene.instantiate()
-		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), Z_COORD_COLLIDERS)
-		# bubble initialize: pos, radius, name
-		spike.initialize(spawn_location, rng.randf_range(0.1,1.1), rng.randi())
-		# Spawn the bubble by adding it to the Main scene.
-		add_child(spike)
-		spike.spiked.connect($UserInterface._on_spike_touched)
+	# bubble initialize: pos, radius, name
+	var spike = spike_scene.instantiate()
+	spike.initialize(calc_spawn_location(rng), rng.randf_range(0.1,1.1), rng.randi())
+
+	# Spawn the bubble by adding it to the Main scene.
+	add_child(spike)
+	spike.spiked.connect($UserInterface._on_spike_touched)
 	
 
-var random_chance = 0.0
 func _on_bubble_and_spike_timer_timeout() -> void:
 	#$BubbleAndSpikeTimer.wait_time = rng.randf_range(1,6)
 	$BubbleAndSpikeTimer.wait_time = rng.randf_range(0,1)
