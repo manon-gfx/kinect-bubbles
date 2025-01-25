@@ -8,6 +8,9 @@ var bitangent_offset = 0.0
 
 const SPEED = 25.0;
 
+func pop() -> void:
+	$AnimatedSprite3D.play("pop")
+
 func _ready() -> void:
 	pass
 
