@@ -182,7 +182,8 @@ func pop_limb(joint_id) -> void:
 		for i in range(VISUAL_COUNT):
 			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
 			var time_offset = rng.randf_range(0.0, 0.5)
-			node.pop(time_offset)
+			var play_sound = rng.randi_range(0, 5) == 0
+			node.pop(time_offset, play_sound)
 	pass
 	
 	for joint in limb_to_joints[limb]:

@@ -8,10 +8,12 @@ var bitangent_offset = 0.0
 var target_scale = 1.0
 
 var delayed_pop_time: int = -1;
+var play_sound = 0
 
 const SPEED = 25.0;
 
-func pop(time_offset: float) -> void:
+func pop(time_offset: float, play_sound: int) -> void:
+	self.play_sound = play_sound
 	self.delayed_pop_time = Time.get_ticks_usec() + (time_offset * 1000000.0)
 
 func spawn() -> void:
@@ -29,7 +31,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if delayed_pop_time >= 0 && Time.get_ticks_usec() > delayed_pop_time:
-		$AudioStreamPlayer.play()
+		if play_sound:
+			$AudioStreamPlayer.pitch_scale = 1.6 - scale.x # 0.7 to 1.5
+			$AudioStreamPlayer.play()
 		$AnimatedSprite3D.play("pop")
 		delayed_pop_time = -1
 	
