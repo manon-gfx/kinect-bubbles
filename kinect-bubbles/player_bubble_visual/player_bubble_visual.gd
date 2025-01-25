@@ -5,12 +5,14 @@ var speed_limit = 1000.0
 
 var tangent_offset = 0.0
 var bitangent_offset = 0.0
+var target_scale = 1.0
 
 const SPEED = 25.0;
 
 func pop() -> void:
 	$AnimatedSprite3D.play("pop")
 func spawn() -> void:
+	set_scale(Vector3.ZERO)
 	$AnimatedSprite3D.play("default")
 
 func _ready() -> void:
@@ -23,6 +25,8 @@ func _ready() -> void:
 # }
 
 func _process(delta: float) -> void:
+	set_scale(scale.lerp(Vector3(target_scale, target_scale, target_scale), delta))
+	
 	var speed = SPEED;
 	#var diff = target_position - self.position
 	#var direction = diff.normalized()

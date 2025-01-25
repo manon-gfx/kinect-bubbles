@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://oxviehss10nk"]
+[gd_scene load_steps=22 format=3 uid="uid://oxviehss10nk"]
 
 [ext_resource type="Script" path="res://main_scene/main.gd" id="1_l0gup"]
 [ext_resource type="Texture2D" uid="uid://b7xfya6salxuf" path="res://assets/night-city-background-with-reflection/O4HFTW1.png" id="2_bcxwt"]

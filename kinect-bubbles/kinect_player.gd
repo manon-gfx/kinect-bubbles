@@ -140,9 +140,11 @@ func _ready() -> void:
 			var bubble = kinect_body_node.instantiate()
 			bubble.name = "Bubble_" + str(i)
 			bubble.joint_id = i;
+			bubble.target_scale = 1.0;
 			if i == KinectBody.JointID_Head:
-				bubble.scale = Vector3(2.0, 2.0, 2.0)
+				bubble.target_scale = 2.0;
 			add_child(bubble)
+			bubble.spawn()
 
 		for bone_index in range(bones.size()):
 			var joint_a = bones[bone_index][0]
@@ -154,11 +156,11 @@ func _ready() -> void:
 				var bubble = player_bubble_visual.instantiate()
 				bubble.name = "VisualBubble_" + str(bone_index) + "_" + str(i)
 				var s = rng.randf_range(0.2, 0.5)
-				bubble.scale = Vector3(s, s, s);
+				bubble.target_scale = s;
 				bubble.tangent_offset = i / (VISUAL_COUNT as float)
 				bubble.bitangent_offset = rng.randf_range(-0.4, 0.4)
-
 				add_child(bubble)
+				bubble.spawn()
 		# Debug ground plane
 		# var plane_mesh = PlaneMesh.new()
 		# var plane = MeshInstance3D.new()
