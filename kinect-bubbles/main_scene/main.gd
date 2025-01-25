@@ -18,6 +18,10 @@ var spawn_location = Vector3(2, 5, 3)
 var bubble_radius = 1.8
 
 var esc_pressed_once = false
+
+const Z_COORD_COLLIDERS = 3
+
+
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ESCAPE:
@@ -51,7 +55,8 @@ func _ready() -> void:
 	
 func add_bubble_in_random_loc(rng):
 		var bubble = bubble_scene.instantiate()
-		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), rng.randf_range(min_z, max_z))
+		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), Z_COORD_COLLIDERS)
+		print(spawn_location)
 		# bubble initialize: pos, radius, name
 		bubble.initialize(spawn_location, rng.randf_range(0.1,1.1), rng.randi())
 		# Spawn the bubble by adding it to the Main scene.
@@ -60,7 +65,7 @@ func add_bubble_in_random_loc(rng):
 
 func add_spike_in_random_loc(rng):
 		var spike = spike_scene.instantiate()
-		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), rng.randf_range(min_z, max_z))
+		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), Z_COORD_COLLIDERS)
 		# bubble initialize: pos, radius, name
 		spike.initialize(spawn_location, rng.randf_range(0.1,1.1), rng.randi())
 		# Spawn the bubble by adding it to the Main scene.
