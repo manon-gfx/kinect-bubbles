@@ -1,5 +1,7 @@
 #ifndef _WIN32
 
+#include "kinect_data.h"
+
 using namespace godot;
 
 struct KinectData {
