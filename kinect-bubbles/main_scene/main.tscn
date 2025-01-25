@@ -61,7 +61,7 @@ shadow_enabled = true
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 27)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 35.5957)
 
 [node name="Bubble" parent="." instance=ExtResource("2_b0l3n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.1076, 7.86547)
@@ -73,7 +73,6 @@ collision_mask = 6
 [node name="KinectNode" type="KinectNode" parent="."]
 
 [node name="KinectPlayer" parent="." instance=ExtResource("5_glhta")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.35676, 7.67191)
 script = ExtResource("6_88pvh")
 
 [node name="BubbleArea" type="Area3D" parent="."]
