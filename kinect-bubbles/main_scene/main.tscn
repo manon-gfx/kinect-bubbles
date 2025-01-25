@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://oxviehss10nk"]
+[gd_scene load_steps=19 format=3 uid="uid://oxviehss10nk"]
 
-[ext_resource type="Texture2D" uid="uid://dduudmq11w0j1" path="res://assets/Bubblecloudsgraphic--1r441c2m589g8g4n56/clouds.svg" id="1_00i0w"]
 [ext_resource type="Script" path="res://main_scene/main.gd" id="1_l0gup"]
 [ext_resource type="PackedScene" uid="uid://baub1oa31fdou" path="res://bubble_scene/bubble.tscn" id="2_b0l3n"]
+[ext_resource type="Texture2D" uid="uid://b7xfya6salxuf" path="res://assets/night-city-background-with-reflection/O4HFTW1.png" id="2_bcxwt"]
 [ext_resource type="PackedScene" uid="uid://bqvh5l1ms370p" path="res://player.tscn" id="3_ju4gu"]
 [ext_resource type="PackedScene" uid="uid://de57n0x8kl5fe" path="res://kinect_player.tscn" id="5_glhta"]
 [ext_resource type="Script" path="res://kinect_player.gd" id="6_88pvh"]
@@ -31,12 +31,15 @@ size = Vector3(60, 2, 30)
 [sub_resource type="BoxShape3D" id="BoxShape3D_gkwe4"]
 size = Vector3(60, 35, 2)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fq6ub"]
+albedo_texture = ExtResource("2_bcxwt")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_weqay"]
-albedo_texture = ExtResource("1_00i0w")
+albedo_texture = ExtResource("2_bcxwt")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_uvaey"]
 material = SubResource("StandardMaterial3D_weqay")
-size = Vector2(60, 35)
+size = Vector2(60, 90)
 orientation = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bymit"]
@@ -57,6 +60,7 @@ collision_mask = 0
 shape = SubResource("BoxShape3D_8ocqn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+visible = false
 mesh = SubResource("BoxMesh_iv1ns")
 
 [node name="Background" type="StaticBody3D" parent="."]
@@ -68,7 +72,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, -0.9)
 shape = SubResource("BoxShape3D_gkwe4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Background"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14, 0)
+material_override = SubResource("StandardMaterial3D_fq6ub")
 mesh = SubResource("PlaneMesh_uvaey")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
