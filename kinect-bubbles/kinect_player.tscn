@@ -1,6 +1,3 @@
-[gd_scene load_steps=2 format=3 uid="uid://de57n0x8kl5fe"]
-
-[ext_resource type="Script" path="res://kinect_player.gd" id="1_h2p46"]
+[gd_scene format=3 uid="uid://de57n0x8kl5fe"]
 
 [node name="KinectPlayer" type="Node3D"]
-script = ExtResource("1_h2p46")
