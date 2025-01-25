@@ -1,0 +1,56 @@
+[gd_scene load_steps=11 format=3 uid="uid://dfijly4tr7hdk"]
+
+[ext_resource type="Texture2D" uid="uid://rycwrqruicrn" path="res://assets/bubble_pop_one/bubble_pop_frame_01.png" id="1_d3mch"]
+[ext_resource type="Script" path="res://player_bubble_visual/player_bubble_visual.gd" id="1_ma2wk"]
+[ext_resource type="Texture2D" uid="uid://hip8pud05ys3" path="res://assets/bubble_pop_one/bubble_pop_frame_02.png" id="2_cj8uq"]
+[ext_resource type="Texture2D" uid="uid://nmk15uuj3cvh" path="res://assets/bubble_pop_one/bubble_pop_frame_03.png" id="3_5ibm7"]
+[ext_resource type="Texture2D" uid="uid://mus7h5f8uj27" path="res://assets/bubble_pop_one/bubble_pop_frame_04.png" id="4_ydlg4"]
+[ext_resource type="Texture2D" uid="uid://b54ke8hvwwlo6" path="res://assets/bubble_pop_one/bubble_pop_frame_05.png" id="5_uhdus"]
+[ext_resource type="Texture2D" uid="uid://d0kftfa151j5a" path="res://assets/bubble_pop_one/bubble_pop_frame_06.png" id="6_42ffp"]
+[ext_resource type="Texture2D" uid="uid://bvbf3a2hkvla1" path="res://assets/bubble_pop_one/bubble_pop_frame_07.png" id="7_06yav"]
+[ext_resource type="Texture2D" uid="uid://coloity8ckqcx" path="res://assets/bubble_pop_one/bubble_pop_frame_empty.png" id="8_2ccmp"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fu3po"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_d3mch")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_cj8uq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5ibm7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ydlg4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_uhdus")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_42ffp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_06yav")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_2ccmp")
+}],
+"loop": false,
+"name": &"pop",
+"speed": 10.0
+}]
+
+[node name="PlayerBubbleVisual" type="Node3D"]
+script = ExtResource("1_ma2wk")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+pixel_size = 0.002
+sprite_frames = SubResource("SpriteFrames_fu3po")
+animation = &"pop"
