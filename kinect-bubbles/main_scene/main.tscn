@@ -84,4 +84,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, 5)
 shape = SubResource("BoxShape3D_bymit")
 
 [node name="SpikyObject" parent="." instance=ExtResource("7_7710t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, 13.1743)

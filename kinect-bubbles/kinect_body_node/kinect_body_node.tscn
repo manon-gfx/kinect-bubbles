@@ -70,6 +70,5 @@ shape = SubResource("SphereShape3D_rx757")
 mesh = SubResource("SphereMesh_mn8hr")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-pixel_size = 0.0006
 sprite_frames = SubResource("SpriteFrames_t5rwh")
 animation = &"pop"

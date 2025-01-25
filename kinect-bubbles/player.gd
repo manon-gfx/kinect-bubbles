@@ -4,8 +4,23 @@ extends CharacterBody3D
 @export var fall_acceleration = 75
 @export var jump_velocity = 50
 
+
+var kinect_body_node = preload("res://kinect_body_node/kinect_body_node.tscn")
 var target_velocity = Vector3.ZERO
 
+func _ready() -> void:
+	$pivot.queue_free()
+	#$pivot/top.queue_free()
+	#$pivot/mid.queue_free()
+	#$pivot/bottom.queue_free()
+	#$CollisionShape3D.queue_free()
+	for joint_id in range(3):			
+		var joint = kinect_body_node.instantiate()
+		joint.name = "Joint" + str(joint_id)
+		joint.position = Vector3(0, joint_id, 0)
+		add_child(joint)
+	
+	
 func _physics_process(delta):
 	# We create a local variable to store the input direction.
 	var direction = Vector3.ZERO
@@ -24,7 +39,7 @@ func _physics_process(delta):
 		
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
-		$pivot.basis = Basis.looking_at(direction)
+		#$pivot.basis = Basis.looking_at(direction)
 
 	if is_on_floor():
 		if Input.is_action_just_pressed("jump"):
