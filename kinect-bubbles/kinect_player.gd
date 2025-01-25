@@ -3,7 +3,7 @@ extends Node3D
 var kinect_node = null;
 var player_size = 5
 var joint_radius = 0.2
-var joint_factors = [2.0, 1.0, 0.5, 2.0, 
+var joint_factors = [2.0, 1.0, 0.5, 2.0,
 					1.0, 1.0, 1.0, 2.0,
  					1.0, 1.0, 1.0, 2.0,
 					1.0, 1.0, 1.0, 2.0,
@@ -58,7 +58,7 @@ func _ready() -> void:
 	if self.kinect_node == null:
 		print("failed to find the kinect node :(")
 	else:
-		for joint_id in range(KinectBody.JointID_Count):			
+		for joint_id in range(KinectBody.JointID_Count):
 			var mesh = SphereMesh.new()
 			var radius = joint_radius * joint_factors[joint_id]
 			mesh.radius = radius
@@ -68,16 +68,34 @@ func _ready() -> void:
 			joint.name = "Joint" + str(joint_id)
 			joint.mesh = mesh
 			add_child(joint)
-			
-		
+
+		var plane_mesh = PlaneMesh.new()
+		var plane = MeshInstance3D.new()
+		plane.name = "Ground"
+		plane.mesh = plane_mesh
+		plane.set_position(Vector3(1, 1, 1))
+		add_child(plane)
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+
 	if self.kinect_node != null:
 		var body = self.kinect_node.get_body(0) as KinectBody
-		
+
+		var plane_direction = Vector3(
+			body.ground_plane.x, body.ground_plane.y, body.ground_plane.z);
+		var plane_offset = -plane_direction * body.ground_plane.w
+
+		var ground = self.get_node("Ground");
+		ground.set_position(plane_offset)
+		ground.look_at(plane_offset + plane_direction, Vector3.UP)
+
 		for joint_id in range(KinectBody.JointID_Count):
-			var kin_pos = body.get_joint_position(joint_id)
-			var scene_pos = kin_pos * player_size				
+			var kin_pos = body.get_joint_position(joint_id) - plane_offset
+			if joint_id == KinectBody.JointID_FootLeft:
+				print(kin_pos)
+			var scene_pos = kin_pos * player_size
+			scene_pos.z += 22.0
 			var joint = self.get_node("Joint" + str(joint_id))
 			joint.set_position(scene_pos)
-			
