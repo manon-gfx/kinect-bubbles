@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://btvif5ytnpwbw"]
+
+[ext_resource type="Script" path="res://spiky_object_scenes/spiky_object.gd" id="1_hyq4n"]
+[ext_resource type="Texture2D" uid="uid://csjn6dhxh0h46" path="res://assets/Spikygameobjects--1z5p6z3a9q578y945p/pngs/cactus_02.png" id="2_s75pb"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a3pf8"]
+radius = 1.4
+height = 3.27836
+
+[node name="SpikyObject" type="CharacterBody3D" groups=["spiky_object"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_hyq4n")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.111506, 0, 0)
+pixel_size = 0.016
+billboard = 1
+texture = ExtResource("2_s75pb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.0260186, 0.80146, 0)
+shape = SubResource("CapsuleShape3D_a3pf8")

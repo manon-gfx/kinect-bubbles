@@ -4,6 +4,8 @@ extends Node
 
 var bubble_scene = preload("res://bubble_scene/bubble.tscn")
 var spike_scene = preload("res://spiky_object_scenes/spiky_object.tscn")
+var cactus_03_scene = preload("res://spiky_object_scenes/cactus_03.tscn")
+var pint_2_scene = preload("res://spiky_object_scenes/pint_2.tscn")
 var min_x
 var max_x
 var min_y
@@ -80,12 +82,21 @@ func add_bubble_in_random_loc(rng):
 
 func add_spike_in_random_loc(rng):
 	# bubble initialize: pos, radius, name
-	var spike = spike_scene.instantiate()
-	spike.initialize(calc_spawn_location(rng), rng.randf_range(0.2,0.6), rng.randi())
+	var spiky = 0
+	var randomnum = rng.randf()
+	if randomnum > 0.67:
+		spiky = spike_scene.instantiate()
+	elif randomnum > 0.33:
+		spiky = cactus_03_scene.instantiate()
+	else:
+		spiky = pint_2_scene.instantiate()
+	spiky.initialize(calc_spawn_location(rng), rng.randf_range(0.2,0.6), rng.randi())
+	
+
 
 	# Spawn the bubble by adding it to the Main scene.
-	add_child(spike)
-	spike.spiked.connect($UserInterface._on_spike_touched)
+	add_child(spiky)
+	spiky.spiked.connect($UserInterface._on_spike_touched)
 	
 
 func _on_bubble_and_spike_timer_timeout() -> void:

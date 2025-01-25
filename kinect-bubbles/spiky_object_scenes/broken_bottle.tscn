@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5vadnethn4i5"]
+
+[ext_resource type="Script" path="res://spiky_object_scenes/spiky_object.gd" id="1_nskyu"]
+[ext_resource type="Texture2D" uid="uid://c6qf1awddklls" path="res://assets/Spikygameobjects--1z5p6z3a9q578y945p/pngs/broken_bottle.png" id="2_55ndc"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_skmir"]
+height = 3.0
+radius = 0.8
+
+[node name="SpikyObject" type="CharacterBody3D" groups=["spiky_object"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_nskyu")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0013783, 0, 0)
+pixel_size = 0.016
+billboard = 1
+texture = ExtResource("2_55ndc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+shape = SubResource("CylinderShape3D_skmir")
