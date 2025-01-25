@@ -10,3 +10,6 @@ background (hills):
 szadiart
 https://szadiart.itch.io/bakcground-hill
 
+pop sound:
+freesound_community
+https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=43207 

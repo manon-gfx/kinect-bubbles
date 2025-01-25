@@ -13,7 +13,9 @@ func pop():
 	# set the mesh to invisible so it is not still visible when the bubble is popping
 	$MeshInstance3D.visible = false
 
+	$AudioStreamPlayer.play()
 	$AnimatedSprite3D.play("pop")
+	
 	is_popped = true
 	popped.emit(name)
 
