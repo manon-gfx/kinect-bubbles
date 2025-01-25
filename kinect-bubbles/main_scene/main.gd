@@ -8,6 +8,21 @@ var max_size_y
 var max_size_z
 
 var number_of_bubbles = 1
+
+
+var esc_pressed_once = false
+
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_ESCAPE:
+			if (esc_pressed_once):
+				get_tree().quit()
+			else:
+				esc_pressed_once = true
+		elif event.keycode != KEY_ESCAPE:
+			esc_pressed_once = false
+			
+			
 func _ready() -> void:
 	var bubble = bubble_scene.instantiate()
 		# Choose a random location on the SpawnPath.
