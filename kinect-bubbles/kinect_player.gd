@@ -2,6 +2,8 @@ extends Node3D
 
 var kinect_node = null;
 
+
+var kinect_body_node = preload("res://kinect_body_node/kinect_body_node.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var root = get_tree().root.get_child(0)
@@ -16,13 +18,14 @@ func _ready() -> void:
 		print("failed to find the kinect node :(")
 	else:
 		for joint_id in range(KinectBody.JointID_Count):			
-			var mesh = SphereMesh.new()
-			mesh.radius = 0.1
-			mesh.height = 0.2
-
-			var joint = MeshInstance3D.new()
+			var joint = kinect_body_node.instantiate()
+			#var mesh = SphereMesh.new()
+			#mesh.radius = 0.1
+			#mesh.height = 0.2
+#
+			#var joint = MeshInstance3D.new()
 			joint.name = "Joint" + str(joint_id)
-			joint.mesh = mesh
+			#joint.mesh = mesh
 			add_child(joint)
 			
 		
