@@ -71,6 +71,7 @@ script = ExtResource("1_fhebr")
 shape = SubResource("SphereShape3D_f0wcd")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+billboard = 1
 sprite_frames = SubResource("SpriteFrames_mdmi8")
 animation = &"pop"
 frame_progress = 0.975219

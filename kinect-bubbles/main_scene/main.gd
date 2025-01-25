@@ -28,7 +28,9 @@ func _unhandled_input(event):
 		elif event.keycode != KEY_ESCAPE:
 			esc_pressed_once = false
 			
-			
+		
+var rng: RandomNumberGenerator
+	
 func _ready() -> void:
 	var shape_box = $BubbleArea/CollisionShape3D.shape.size
 	var pos_box = $BubbleArea/CollisionShape3D.position
@@ -39,28 +41,39 @@ func _ready() -> void:
 	min_z = pos_box[2]-shape_box[2] + bubble_radius
 	max_z = pos_box[2]+shape_box[2] - bubble_radius
 	
-	var rng = RandomNumberGenerator.new()
+	rng = RandomNumberGenerator.new()
 
 	for i in range(number_of_bubbles):
-		
+		add_bubble_in_random_loc(rng)
+	
+	for i in range(number_of_spikes):
+		add_spike_in_random_loc(rng)
+	
+func add_bubble_in_random_loc(rng):
 		var bubble = bubble_scene.instantiate()
 		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), rng.randf_range(min_z, max_z))
 		# bubble initialize: pos, radius, name
-		bubble.initialize(spawn_location, 0, i)
+		bubble.initialize(spawn_location, rng.randf_range(0.1,1.1), rng.randi())
 		# Spawn the bubble by adding it to the Main scene.
 		add_child(bubble)
 		bubble.popped.connect($UserInterface._on_bubble_popped)
-	
-	for i in range(number_of_spikes):
-		
+
+func add_spike_in_random_loc(rng):
 		var spike = spike_scene.instantiate()
 		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), rng.randf_range(min_z, max_z))
 		# bubble initialize: pos, radius, name
-		spike.initialize(spawn_location, rng.randf_range(0.1,1.1), i)
+		spike.initialize(spawn_location, rng.randf_range(0.1,1.1), rng.randi())
 		# Spawn the bubble by adding it to the Main scene.
 		add_child(spike)
 		spike.spiked.connect($UserInterface._on_spike_touched)
-	#pass
-	#pass
 	
+
+var random_chance = 0.0
+func _on_bubble_and_spike_timer_timeout() -> void:
+	#$BubbleAndSpikeTimer.wait_time = rng.randf_range(1,6)
+	$BubbleAndSpikeTimer.wait_time = rng.randf_range(0,1)
+	if rng.randf() > 0.8:
+		add_spike_in_random_loc(rng)
+	else:
+		add_bubble_in_random_loc(rng)
 	

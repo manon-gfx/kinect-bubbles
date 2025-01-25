@@ -101,5 +101,9 @@ offset_bottom = 23.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Score: 0"
 
+[node name="BubbleAndSpikeTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="popped" from="Bubble" to="UserInterface" method="_on_bubble_popped"]
 [connection signal="spiked" from="SpikyObject" to="UserInterface" method="_on_spike_touched"]
+[connection signal="timeout" from="BubbleAndSpikeTimer" to="." method="_on_bubble_and_spike_timer_timeout"]
