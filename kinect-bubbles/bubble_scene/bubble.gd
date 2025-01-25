@@ -29,7 +29,7 @@ func initialize(start_position: Vector3, _rotation_amount: float, _bubble_name) 
 	#print(bubble_name)
 	
 	# defer because camera doesnt exist yet (might not be necessary, this is a manual billboarding)
-	call_deferred("func get_camera_pos_for_init",start_position, _rotation_amount)
+	call_deferred("get_camera_pos_for_init",start_position, _rotation_amount)
 
 func get_camera_pos_for_init(start_position: Vector3, _rotation_amount: float) -> void:
 	camera_pos = get_viewport().get_camera_3d().global_transform.origin
