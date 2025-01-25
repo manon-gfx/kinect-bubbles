@@ -52,6 +52,8 @@ func _ready() -> void:
 	
 	for i in range(number_of_spikes):
 		add_spike_in_random_loc(rng)
+	if not $KinectPlayer.has_a_kinect:
+		$player.queue_free()
 	
 func add_bubble_in_random_loc(rng):
 		var bubble = bubble_scene.instantiate()

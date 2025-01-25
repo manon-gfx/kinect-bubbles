@@ -1,5 +1,6 @@
 extends Node3D
 
+var has_a_kinect = false
 var kinect_node = null;
 var player_size = 5.0
 var bones = [
@@ -54,6 +55,7 @@ func _ready() -> void:
 	if self.kinect_node == null:
 		print("failed to find the kinect node :(")
 	else:
+		has_a_kinect = true
 		for bone_index in range(bones.size()):
 			for i in range(4):
 				var bubble = kinect_body_node.instantiate()
