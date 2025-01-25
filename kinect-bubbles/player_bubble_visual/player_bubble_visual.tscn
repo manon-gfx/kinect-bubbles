@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dfijly4tr7hdk"]
+[gd_scene load_steps=12 format=3 uid="uid://dfijly4tr7hdk"]
 
 [ext_resource type="Texture2D" uid="uid://rycwrqruicrn" path="res://assets/bubble_pop_one/bubble_pop_frame_01.png" id="1_d3mch"]
 [ext_resource type="Script" path="res://player_bubble_visual/player_bubble_visual.gd" id="1_ma2wk"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://d0kftfa151j5a" path="res://assets/bubble_pop_one/bubble_pop_frame_06.png" id="6_42ffp"]
 [ext_resource type="Texture2D" uid="uid://bvbf3a2hkvla1" path="res://assets/bubble_pop_one/bubble_pop_frame_07.png" id="7_06yav"]
 [ext_resource type="Texture2D" uid="uid://coloity8ckqcx" path="res://assets/bubble_pop_one/bubble_pop_frame_empty.png" id="8_2ccmp"]
+[ext_resource type="AudioStream" uid="uid://gih3na5qqph0" path="res://assets/sfx/bubble-sound-43207-trimmed.mp3" id="10_s3uts"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fu3po"]
 animations = [{
@@ -56,3 +57,6 @@ script = ExtResource("1_ma2wk")
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 pixel_size = 0.002
 sprite_frames = SubResource("SpriteFrames_fu3po")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_s3uts")

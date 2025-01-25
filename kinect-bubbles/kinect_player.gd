@@ -123,7 +123,6 @@ func _ready() -> void:
 		joint_positions.append(Vector3(0, 0, 0))
 
 	for child in root.get_children():
-		print(child.name)
 		if child.is_class("KinectNode"):
 			self.kinect_node = child as KinectNode
 			break
@@ -182,7 +181,8 @@ func pop_limb(joint_id) -> void:
 	for bone in bone_list:
 		for i in range(VISUAL_COUNT):
 			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
-			node.pop()
+			var time_offset = rng.randf_range(0.0, 0.5)
+			node.pop(time_offset)
 	pass
 	
 	for joint in limb_to_joints[limb]:

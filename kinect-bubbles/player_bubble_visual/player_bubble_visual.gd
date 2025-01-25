@@ -7,10 +7,13 @@ var tangent_offset = 0.0
 var bitangent_offset = 0.0
 var target_scale = 1.0
 
+var delayed_pop_time: int = -1;
+
 const SPEED = 25.0;
 
-func pop() -> void:
-	$AnimatedSprite3D.play("pop")
+func pop(time_offset: float) -> void:
+	self.delayed_pop_time = Time.get_ticks_usec() + (time_offset * 1000000.0)
+
 func spawn() -> void:
 	set_scale(Vector3.ZERO)
 	$AnimatedSprite3D.play("default")
@@ -25,6 +28,11 @@ func _ready() -> void:
 # }
 
 func _process(delta: float) -> void:
+	if delayed_pop_time >= 0 && Time.get_ticks_usec() > delayed_pop_time:
+		$AudioStreamPlayer.play()
+		$AnimatedSprite3D.play("pop")
+		delayed_pop_time = -1
+	
 	set_scale(scale.lerp(Vector3(target_scale, target_scale, target_scale), delta))
 	
 	var speed = SPEED;
