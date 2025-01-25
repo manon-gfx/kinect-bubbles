@@ -85,8 +85,6 @@ func _process(delta: float) -> void:
 		# Update joints
 		for joint_id in range(KinectBody.JointID_Count):
 			var kin_pos = body.get_joint_position(joint_id) - plane_offset
-			if joint_id == KinectBody.JointID_FootLeft:
-				print(kin_pos)
 			var scene_pos = kin_pos * player_size
 			scene_pos.z += 22.0
 			joint_positions[joint_id] = scene_pos
