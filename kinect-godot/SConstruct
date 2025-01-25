@@ -41,7 +41,7 @@ else:
         env.AppendUnique(LIBS=['Kinect20.lib'])
     elif env["platform"] == "linux":
         env.AppendUnique(LIBPATH=['/usr/lib'])
-        env.AppendUnique(LIBS=['freenect2'])
+        # env.AppendUnique(LIBS=['freenect2'])
 
     library = env.SharedLibrary(
         "../kinect-bubbles/bin/kinect-godot{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
