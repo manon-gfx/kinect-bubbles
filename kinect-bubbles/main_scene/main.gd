@@ -3,9 +3,19 @@ extends Node
 #@export var bubble_scene: PackedScene
 
 var bubble_scene = preload("res://bubble_scene/bubble.tscn")
-var spike_scene = preload("res://spiky_object_scenes/spiky_object.tscn")
+var broken_bottle_scene = preload("res://spiky_object_scenes/broken_bottle.tscn")
+var cactus_01_scene = preload("res://spiky_object_scenes/cactus_01.tscn")
+var cactus_02_scene = preload("res://spiky_object_scenes/cactus_02.tscn")
 var cactus_03_scene = preload("res://spiky_object_scenes/cactus_03.tscn")
+var knife_scene = preload("res://spiky_object_scenes/knife.tscn")
+var nail_in_wood_scene = preload("res://spiky_object_scenes/nail_in_wood.tscn")
+var spike_scene = preload("res://spiky_object_scenes/spiky_object.tscn")
+var pint_scene = preload("res://spiky_object_scenes/pint.tscn")
 var pint_2_scene = preload("res://spiky_object_scenes/pint_2.tscn")
+var thorn_scene = preload("res://spiky_object_scenes/thorn.tscn")
+
+var list_of_spiky_objects = [broken_bottle_scene, cactus_01_scene, cactus_02_scene, cactus_03_scene, knife_scene, nail_in_wood_scene,
+spike_scene, pint_scene, pint_2_scene, thorn_scene]
 var min_x
 var max_x
 var min_y
@@ -81,15 +91,9 @@ func add_bubble_in_random_loc(rng):
 	bubble.popped.connect($UserInterface._on_bubble_popped)
 
 func add_spike_in_random_loc(rng):
-	# bubble initialize: pos, radius, name
-	var spiky = 0
-	var randomnum = rng.randf()
-	if randomnum > 0.67:
-		spiky = spike_scene.instantiate()
-	elif randomnum > 0.33:
-		spiky = cactus_03_scene.instantiate()
-	else:
-		spiky = pint_2_scene.instantiate()
+	
+	
+	var spiky = list_of_spiky_objects.pick_random().instantiate()
 	spiky.initialize(calc_spawn_location(rng), rng.randf_range(0.2,0.6), rng.randi())
 	
 
