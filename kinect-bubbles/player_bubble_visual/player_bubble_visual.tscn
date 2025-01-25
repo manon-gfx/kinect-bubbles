@@ -12,7 +12,10 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fu3po"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_d3mch")
+}],
 "loop": true,
 "name": &"default",
 "speed": 5.0
@@ -53,4 +56,3 @@ script = ExtResource("1_ma2wk")
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 pixel_size = 0.002
 sprite_frames = SubResource("SpriteFrames_fu3po")
-animation = &"pop"
