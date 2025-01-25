@@ -1,4 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://igp0if23krok"]
+[gd_scene load_steps=14 format=3 uid="uid://igp0if23krok"]
+
+[ext_resource type="Script" path="res://kinect_body_node/kinect_body_node.gd" id="1_mf8e2"]
+[ext_resource type="Texture2D" uid="uid://rycwrqruicrn" path="res://assets/bubble_pop_one/bubble_pop_frame_01.png" id="2_jfo4u"]
+[ext_resource type="Texture2D" uid="uid://hip8pud05ys3" path="res://assets/bubble_pop_one/bubble_pop_frame_02.png" id="3_5x2ch"]
+[ext_resource type="Texture2D" uid="uid://nmk15uuj3cvh" path="res://assets/bubble_pop_one/bubble_pop_frame_03.png" id="4_uex42"]
+[ext_resource type="Texture2D" uid="uid://mus7h5f8uj27" path="res://assets/bubble_pop_one/bubble_pop_frame_04.png" id="5_5aq73"]
+[ext_resource type="Texture2D" uid="uid://b54ke8hvwwlo6" path="res://assets/bubble_pop_one/bubble_pop_frame_05.png" id="6_ukekh"]
+[ext_resource type="Texture2D" uid="uid://d0kftfa151j5a" path="res://assets/bubble_pop_one/bubble_pop_frame_06.png" id="7_wge2h"]
+[ext_resource type="Texture2D" uid="uid://bvbf3a2hkvla1" path="res://assets/bubble_pop_one/bubble_pop_frame_07.png" id="8_bekvv"]
+[ext_resource type="Texture2D" uid="uid://coloity8ckqcx" path="res://assets/bubble_pop_one/bubble_pop_frame_empty.png" id="9_7qodk"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_rx757"]
 radius = 0.1
@@ -11,10 +21,52 @@ material = SubResource("StandardMaterial3D_pxolo")
 radius = 0.1
 height = 0.2
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_t5rwh"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_jfo4u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5x2ch")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_uex42")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_5aq73")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ukekh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_wge2h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_bekvv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_7qodk")
+}],
+"loop": true,
+"name": &"pop",
+"speed": 10.0
+}]
+
 [node name="KinectBodyNode" type="CharacterBody3D"]
+script = ExtResource("1_mf8e2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_rx757")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_mn8hr")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t5rwh")
+animation = &"pop"
