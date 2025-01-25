@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://baub1oa31fdou"]
+[gd_scene load_steps=14 format=3 uid="uid://baub1oa31fdou"]
 
 [ext_resource type="Script" path="res://bubble_scene/bubble.gd" id="1_fhebr"]
 [ext_resource type="Texture2D" uid="uid://rycwrqruicrn" path="res://assets/bubble_pop_one/bubble_pop_frame_01.png" id="1_l73p2"]
@@ -53,11 +53,18 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rxmsm"]
+transparency = 1
+albedo_color = Color(0, 0.678431, 0.678431, 0.243137)
+
 [sub_resource type="SphereMesh" id="SphereMesh_cgwdp"]
+material = SubResource("StandardMaterial3D_rxmsm")
 radius = 1.8
 height = 3.6
 
 [node name="Bubble" type="CharacterBody3D" groups=["bubble"]]
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("1_fhebr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
