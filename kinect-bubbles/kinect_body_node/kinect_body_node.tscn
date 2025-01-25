@@ -24,10 +24,7 @@ height = 0.76
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_t5rwh"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_jfo4u")
-}],
+"frames": [],
 "loop": true,
 "name": &"default",
 "speed": 5.0
@@ -76,5 +73,6 @@ mesh = SubResource("SphereMesh_mn8hr")
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 pixel_size = 0.0015
 sprite_frames = SubResource("SpriteFrames_t5rwh")
+animation = &"pop"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
