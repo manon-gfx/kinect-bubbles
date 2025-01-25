@@ -1,9 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://oxviehss10nk"]
+[gd_scene load_steps=21 format=3 uid="uid://oxviehss10nk"]
 
 [ext_resource type="Script" path="res://main_scene/main.gd" id="1_l0gup"]
 [ext_resource type="Texture2D" uid="uid://b7xfya6salxuf" path="res://assets/night-city-background-with-reflection/O4HFTW1.png" id="2_bcxwt"]
 [ext_resource type="Texture2D" uid="uid://culriu6gs3u8r" path="res://assets/backgrounds/Hills.png" id="2_doovh"]
-[ext_resource type="PackedScene" uid="uid://bqvh5l1ms370p" path="res://player.tscn" id="3_ju4gu"]
 [ext_resource type="Texture2D" uid="uid://cpjby2jxdhlux" path="res://assets/backgrounds/background4.png" id="4_skcjh"]
 [ext_resource type="PackedScene" uid="uid://de57n0x8kl5fe" path="res://kinect_player.tscn" id="5_glhta"]
 [ext_resource type="Script" path="res://kinect_player.gd" id="6_88pvh"]
@@ -98,9 +97,6 @@ shadow_enabled = true
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 35.596)
 fov = 40.0
-
-[node name="player" parent="." instance=ExtResource("3_ju4gu")]
-collision_mask = 6
 
 [node name="KinectNode" type="KinectNode" parent="."]
 
