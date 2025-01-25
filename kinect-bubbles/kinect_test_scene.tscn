@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://c7qfhk4u2tre3"]
+[gd_scene load_steps=3 format=3 uid="uid://bf2x0nuvw31so"]
 
 [ext_resource type="Script" path="res://attach_to_head.gd" id="2_4gg0o"]
 
@@ -7,6 +7,16 @@
 [node name="Node3D" type="Node3D"]
 
 [node name="KinectNode" type="KinectNode" parent="."]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+script = null
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_5n5br")

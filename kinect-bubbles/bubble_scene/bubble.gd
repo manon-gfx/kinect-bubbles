@@ -6,10 +6,9 @@ signal popped
 
 func pop():
 	#print("popped ", bubble_name, "!")
-	
 	# set the mesh to invisible so it is not still visible when the bubble is popping
 	$MeshInstance3D.visible = false
-	
+
 	$AnimatedSprite3D.play("pop")
 	popped.emit()
 	
@@ -24,18 +23,18 @@ var camera_pos = 0
 var bubble_name = "default"
 
 # rotate sprite by certain amount of radians (probably) while it keeps looking at the camera
-func initialize(start_position: Vector3, rotation_amount: float, _bubble_name: String) -> void:
+func initialize(start_position: Vector3, rotation_amount: float, bubble_name) -> void:
 	position = start_position
-	bubble_name = _bubble_name
+	bubble_name = bubble_name
 	#print(bubble_name)
 	
 	# defer because camera doesnt exist yet (might not be necessary, this is a manual billboarding)
-	#call_deferred("func get_camera_pos_for_inits",start_position, rotation_amount)
+	call_deferred("func get_camera_pos_for_inits",start_position, rotation_amount)
 
-#func get_camera_pos_for_init(start_position: Vector3, rotation_amount: float) -> void:
-	#camera_pos = get_viewport().get_camera_3d().global_transform.origin
-	#camera_pos.y = global_position.y
-	#look_at_from_position(start_position, camera_pos, Vector3.UP)
+func get_camera_pos_for_init(start_position: Vector3, rotation_amount: float) -> void:
+	camera_pos = get_viewport().get_camera_3d().global_transform.origin
+	camera_pos.y = global_position.y
+	look_at_from_position(start_position, camera_pos, Vector3.UP)
 	
 # rotate sprite by certain amount of radians (probably) while it keeps looking at the camera
 func rotate_sprite(rotation_amount: float):
