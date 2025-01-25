@@ -1,12 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://oxviehss10nk"]
+[gd_scene load_steps=17 format=3 uid="uid://oxviehss10nk"]
 
 [ext_resource type="Script" path="res://main_scene/main.gd" id="1_l0gup"]
-[ext_resource type="PackedScene" uid="uid://baub1oa31fdou" path="res://bubble_scene/bubble.tscn" id="2_b0l3n"]
 [ext_resource type="Texture2D" uid="uid://b7xfya6salxuf" path="res://assets/night-city-background-with-reflection/O4HFTW1.png" id="2_bcxwt"]
 [ext_resource type="PackedScene" uid="uid://bqvh5l1ms370p" path="res://player.tscn" id="3_ju4gu"]
 [ext_resource type="PackedScene" uid="uid://de57n0x8kl5fe" path="res://kinect_player.tscn" id="5_glhta"]
 [ext_resource type="Script" path="res://kinect_player.gd" id="6_88pvh"]
-[ext_resource type="PackedScene" uid="uid://bvr3vnb3jpier" path="res://spiky_object_scenes/spiky_object.tscn" id="7_7710t"]
 [ext_resource type="Script" path="res://main_scene/user_interface.gd" id="8_a4ary"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_blsss"]
@@ -86,10 +84,6 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 35.596)
 fov = 40.0
 
-[node name="Bubble" parent="." instance=ExtResource("2_b0l3n")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.108, 3)
-collision_mask = 2
-
 [node name="player" parent="." instance=ExtResource("3_ju4gu")]
 collision_mask = 6
 
@@ -105,9 +99,6 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BubbleArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 5)
 shape = SubResource("BoxShape3D_bymit")
-
-[node name="SpikyObject" parent="." instance=ExtResource("7_7710t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, 3)
 
 [node name="UserInterface" type="Control" parent="."]
 layout_mode = 3
@@ -126,6 +117,4 @@ text = "Score: 0"
 [node name="BubbleAndSpikeTimer" type="Timer" parent="."]
 autostart = true
 
-[connection signal="popped" from="Bubble" to="UserInterface" method="_on_bubble_popped"]
-[connection signal="spiked" from="SpikyObject" to="UserInterface" method="_on_spike_touched"]
 [connection signal="timeout" from="BubbleAndSpikeTimer" to="." method="_on_bubble_and_spike_timer_timeout"]

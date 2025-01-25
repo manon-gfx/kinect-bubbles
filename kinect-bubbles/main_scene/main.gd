@@ -72,7 +72,7 @@ func calc_spawn_location(rng):
 func add_bubble_in_random_loc(rng):
 	# bubble initialize: pos, radius, name
 	var bubble = bubble_scene.instantiate()
-	bubble.initialize(calc_spawn_location(rng), rng.randf_range(0.1,1.1), rng.randi())
+	bubble.initialize(calc_spawn_location(rng), rng.randf_range(0.2,1.0), rng.randi())
 
 	# Spawn the bubble by adding it to the Main scene.
 	add_child(bubble)
@@ -81,7 +81,7 @@ func add_bubble_in_random_loc(rng):
 func add_spike_in_random_loc(rng):
 	# bubble initialize: pos, radius, name
 	var spike = spike_scene.instantiate()
-	spike.initialize(calc_spawn_location(rng), rng.randf_range(0.1,1.1), rng.randi())
+	spike.initialize(calc_spawn_location(rng), rng.randf_range(0.2,0.6), rng.randi())
 
 	# Spawn the bubble by adding it to the Main scene.
 	add_child(spike)
