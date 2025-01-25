@@ -56,7 +56,7 @@ func _ready() -> void:
 		var spike = spike_scene.instantiate()
 		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), rng.randf_range(min_z, max_z))
 		# bubble initialize: pos, radius, name
-		spike.initialize(spawn_location, 0, i)
+		spike.initialize(spawn_location, rng.randf_range(0.1,1.1), i)
 		# Spawn the bubble by adding it to the Main scene.
 		add_child(spike)
 		spike.spiked.connect($UserInterface._on_spike_touched)
