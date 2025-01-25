@@ -1,8 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7qfhk4u2tre3"]
+[gd_scene load_steps=3 format=3 uid="uid://c7qfhk4u2tre3"]
 
-[ext_resource type="Script" path="res://test_script.gd" id="1_wrbvn"]
+[ext_resource type="Script" path="res://attach_to_head.gd" id="2_4gg0o"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5n5br"]
 
 [node name="Node3D" type="Node3D"]
 
 [node name="KinectNode" type="KinectNode" parent="."]
-script = ExtResource("1_wrbvn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_5n5br")
+script = ExtResource("2_4gg0o")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.89142)

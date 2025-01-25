@@ -140,8 +140,9 @@ int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, godot::Ref
                 int joint_type = joints[j].JointType;
                 result_body->joint_positions[joint_type].x = joints[j].Position.X;
                 result_body->joint_positions[joint_type].y = joints[j].Position.Y;
-                result_body->joint_positions[joint_type].z = joints[j].Position.Z;
+                result_body->joint_positions[joint_type].z = -joints[j].Position.Z; // left handed to right handed
 
+                // TODO(manon): Left handed to right handed conversion?
                 joint_type = joint_orientations[j].JointType;
                 result_body->joint_orientations[joint_type].x = joint_orientations[j].Orientation.x;
                 result_body->joint_orientations[joint_type].y = joint_orientations[j].Orientation.y;
