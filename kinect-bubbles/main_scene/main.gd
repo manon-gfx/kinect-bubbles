@@ -1,6 +1,5 @@
 extends Node
 
-
 #@export var bubble_scene: PackedScene
 
 var bubble_scene = preload("res://bubble_scene/bubble.tscn")

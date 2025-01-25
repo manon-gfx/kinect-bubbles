@@ -3,10 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://dduudmq11w0j1" path="res://assets/Bubblecloudsgraphic--1r441c2m589g8g4n56/clouds.svg" id="1_00i0w"]
 [ext_resource type="Script" path="res://main_scene/main.gd" id="1_l0gup"]
 [ext_resource type="PackedScene" uid="uid://baub1oa31fdou" path="res://bubble_scene/bubble.tscn" id="2_b0l3n"]
-[ext_resource type="PackedScene" uid="uid://ck8v55aaqddto" path="res://player.tscn" id="3_ju4gu"]
+[ext_resource type="PackedScene" path="res://player.tscn" id="3_ju4gu"]
 [ext_resource type="PackedScene" uid="uid://de57n0x8kl5fe" path="res://kinect_player.tscn" id="5_glhta"]
 [ext_resource type="Script" path="res://kinect_player.gd" id="6_88pvh"]
-
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8ocqn"]
 size = Vector3(60, 2, 30)
