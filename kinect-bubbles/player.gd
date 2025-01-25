@@ -6,6 +6,18 @@ extends CharacterBody3D
 
 var target_velocity = Vector3.ZERO
 
+var esc_pressed_once = false
+
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_ESCAPE:
+			if (esc_pressed_once):
+				get_tree().quit()
+			else:
+				esc_pressed_once = true
+		elif event.keycode != KEY_ESCAPE:
+			esc_pressed_once = false
+			
 func _physics_process(delta):
 	# We create a local variable to store the input direction.
 	var direction = Vector3.ZERO
