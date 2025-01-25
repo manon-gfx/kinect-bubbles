@@ -49,7 +49,6 @@ func _ready() -> void:
 		bubble.initialize(spawn_location, 0, i)
 		# Spawn the bubble by adding it to the Main scene.
 		add_child(bubble)
-		print("added bubble at: ", bubble.position)
 	#pass
 	
 	
