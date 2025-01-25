@@ -56,7 +56,7 @@ func _ready() -> void:
 func add_bubble_in_random_loc(rng):
 		var bubble = bubble_scene.instantiate()
 		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), Z_COORD_COLLIDERS)
-		print(spawn_location)
+		#print(spawn_location)
 		# bubble initialize: pos, radius, name
 		bubble.initialize(spawn_location, rng.randf_range(0.1,1.1), rng.randi())
 		# Spawn the bubble by adding it to the Main scene.
