@@ -3,12 +3,18 @@ extends CharacterBody3D
 # emit when the player pops a bubble
 signal popped(name)
 
+var is_popped = false
+
 func pop():
+	# skip double pops
+	if is_popped:
+		return
 	#print("popped ", bubble_name, "!")
 	# set the mesh to invisible so it is not still visible when the bubble is popping
 	$MeshInstance3D.visible = false
 
 	$AnimatedSprite3D.play("pop")
+	is_popped = true
 	popped.emit(name)
 
 var bubble_name = "default"
@@ -35,7 +41,7 @@ func _process(delta: float) -> void:
 	
 	if target.x < -40 or target.x > 40 or target.y < -5 or target.y > 40:
 		if position.x < -40 or position.x > 40 or position.y < -5 or position.y > 40:
-			pop()
+			queue_free()
 
 # remove the node from memory after the animation has finished playing
 func _on_animated_sprite_3d_animation_finished() -> void:
