@@ -1,13 +1,16 @@
-[gd_scene load_steps=19 format=3 uid="uid://oxviehss10nk"]
+[gd_scene load_steps=24 format=3 uid="uid://oxviehss10nk"]
 
 [ext_resource type="Script" path="res://main_scene/main.gd" id="1_l0gup"]
 [ext_resource type="PackedScene" uid="uid://baub1oa31fdou" path="res://bubble_scene/bubble.tscn" id="2_b0l3n"]
 [ext_resource type="Texture2D" uid="uid://b7xfya6salxuf" path="res://assets/night-city-background-with-reflection/O4HFTW1.png" id="2_bcxwt"]
+[ext_resource type="Texture2D" uid="uid://culriu6gs3u8r" path="res://assets/backgrounds/Hills.png" id="2_doovh"]
 [ext_resource type="PackedScene" uid="uid://bqvh5l1ms370p" path="res://player.tscn" id="3_ju4gu"]
+[ext_resource type="Texture2D" uid="uid://cpjby2jxdhlux" path="res://assets/backgrounds/background4.png" id="4_skcjh"]
 [ext_resource type="PackedScene" uid="uid://de57n0x8kl5fe" path="res://kinect_player.tscn" id="5_glhta"]
 [ext_resource type="Script" path="res://kinect_player.gd" id="6_88pvh"]
 [ext_resource type="PackedScene" uid="uid://bvr3vnb3jpier" path="res://spiky_object_scenes/spiky_object.tscn" id="7_7710t"]
 [ext_resource type="Script" path="res://main_scene/user_interface.gd" id="8_a4ary"]
+[ext_resource type="FontFile" uid="uid://dwro2fux2pjk2" path="res://assets/bubble3d/Bubble3D.ttf" id="9_8dgeb"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_blsss"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -31,15 +34,23 @@ size = Vector3(60, 2, 30)
 [sub_resource type="BoxShape3D" id="BoxShape3D_gkwe4"]
 size = Vector3(60, 35, 2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fq6ub"]
-albedo_texture = ExtResource("2_bcxwt")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wa0vh"]
+albedo_texture = ExtResource("2_doovh")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_weqay"]
 albedo_texture = ExtResource("2_bcxwt")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_uvaey"]
 material = SubResource("StandardMaterial3D_weqay")
-size = Vector2(60, 90)
+size = Vector2(50, 30)
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sgmp4"]
+albedo_texture = ExtResource("4_skcjh")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_52522"]
+material = SubResource("StandardMaterial3D_sgmp4")
+size = Vector2(50, 30)
 orientation = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bymit"]
@@ -72,9 +83,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, -0.9)
 shape = SubResource("BoxShape3D_gkwe4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Background"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14, 0)
-material_override = SubResource("StandardMaterial3D_fq6ub")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+material_override = SubResource("StandardMaterial3D_wa0vh")
 mesh = SubResource("PlaneMesh_uvaey")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Background"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.01)
+mesh = SubResource("PlaneMesh_52522")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.258819, -0.965926, 0, 0.482963, -0.12941, 0.866026, -0.836516, 0.224144, 0.5, 0, 21, 38)
@@ -111,17 +126,39 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, 3)
 
 [node name="UserInterface" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("8_a4ary")
 
-[node name="Label" type="Label" parent="UserInterface"]
+[node name="ScoreLabel" type="Label" parent="UserInterface"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_8dgeb")
+theme_override_font_sizes/font_size = 150
 text = "Score: 0"
+
+[node name="GameOver" type="Label" parent="UserInterface"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -897.0
+offset_top = -150.0
+offset_right = 897.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.605674, 5.41471e-07, 2.40654e-07, 1)
+theme_override_fonts/font = ExtResource("9_8dgeb")
+theme_override_font_sizes/font_size = 300
+text = "GAME OVER"
 
 [node name="BubbleAndSpikeTimer" type="Timer" parent="."]
 autostart = true

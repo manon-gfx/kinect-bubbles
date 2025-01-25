@@ -2,3 +2,11 @@ Credits:
 https://www.gamedeveloperstudio.com
 Game Developers Studio
 Bubble popping animation, spiky objects, cloud background
+
+font:
+https://www.dafont.com/bubble3d.font
+
+background (hills):
+szadiart
+https://szadiart.itch.io/bakcground-hill
+
