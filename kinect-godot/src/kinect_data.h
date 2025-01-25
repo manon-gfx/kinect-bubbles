@@ -55,12 +55,14 @@ public:
     bool valid = false;
     KinectHandState left_hand_state = KinectHandState_Unknown;
     KinectHandState right_hand_state = KinectHandState_Unknown;
+    godot::Vector4 ground_plane;
     godot::Vector3 joint_positions[JointID_Count];
     godot::Vector4 joint_orientations[JointID_Count];
 
     int get_valid() { return valid; }
     int get_left_hand_state() { return left_hand_state; }
     int get_right_hand_state() { return right_hand_state; }
+    godot::Vector4 get_ground_plane() { return ground_plane; }
     godot::Vector3 get_joint_position(unsigned int index) {
         if (index < JointID_Count) {
             return joint_positions[index];

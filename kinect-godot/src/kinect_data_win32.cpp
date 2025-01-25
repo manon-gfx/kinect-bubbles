@@ -5,8 +5,6 @@
 #include "kinect_data.h"
 #include "logging.h"
 
-using namespace godot;
-
 #define CRASH() (*(volatile int*)0 = 1337)
 #define ASSERT(x, msg, ...) do {                                               \
     if (!(x)) {                                                                \
@@ -98,8 +96,17 @@ int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, godot::Ref
     if (FAILED(hr)) {
         return 0;
     }
-    ASSERT(SUCCEEDED(hr), "Failed to get a body frame :(. HRESULT: 0x%x", hr);
     ASSERT(body_frame, "Failed to get a body frame :( NULL");
+
+    Vector4 kinect_ground_plane = {};
+    hr = body_frame->get_FloorClipPlane(&kinect_ground_plane);
+    godot::Vector4 ground_plane;
+    if (SUCCEEDED(hr)) {
+        ground_plane.x = kinect_ground_plane.x;
+        ground_plane.y = kinect_ground_plane.y;
+        ground_plane.z = -kinect_ground_plane.z; // left to right handed
+        ground_plane.w = kinect_ground_plane.w;
+    }
 
     IBody* bodies[BODY_COUNT] = {};
     hr = body_frame->GetAndRefreshBodyData(BODY_COUNT, bodies);
@@ -121,6 +128,8 @@ int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, godot::Ref
         HRESULT hr = bodies[i]->get_IsTracked(&is_tracked);
         if (SUCCEEDED(hr) && is_tracked) {
             result_body->valid = true;
+
+            result_body->ground_plane = ground_plane;
 
             HandState left_hand_state;
             bodies[i]->get_HandLeftState(&left_hand_state);

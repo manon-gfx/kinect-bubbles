@@ -16,6 +16,9 @@ void KinectBody::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::INT, "left_hand_state", PROPERTY_HINT_NONE, ""), "", "get_left_hand_state");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "right_hand_state", PROPERTY_HINT_NONE, ""), "", "get_right_hand_state");
 
+    ClassDB::bind_method(D_METHOD("get_ground_plane"), &KinectBody::get_ground_plane);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR4, "ground_plane", PROPERTY_HINT_NONE, ""), "", "get_ground_plane");
+
     ClassDB::bind_method(D_METHOD("get_joint_position", "index"), &KinectBody::get_joint_position);
     ClassDB::bind_method(D_METHOD("get_joint_orientation", "index"), &KinectBody::get_joint_orientation);
 
