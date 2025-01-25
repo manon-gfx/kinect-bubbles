@@ -9,10 +9,11 @@ func _on_body_entered(body: Node) -> void:
 		return;
 	
 	if body.is_in_group("bubble"):
-		body.pop()
-		var kinect_player = self.get_parent()
-		if kinect_player.name == "KinectPlayer": # WTF Godot
-			kinect_player.restore_limb()
+		if !body.is_popped: #skip double pops
+			body.pop()
+			var kinect_player = self.get_parent()
+			if kinect_player.name == "KinectPlayer": # WTF Godot
+				kinect_player.restore_limb()
 
 	if body.is_in_group("spiky_object"):
 		body.touched_spike()
