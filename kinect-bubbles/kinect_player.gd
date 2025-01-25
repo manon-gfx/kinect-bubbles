@@ -12,6 +12,9 @@ const LIMB_ARM_RIGHT = 2
 const LIMB_LEG_LEFT = 3
 const LIMB_LEG_RIGHT = 4
 
+### Anneriet new: For showing game over
+signal game_over
+
 var limbs = [
 	[KinectBody.JointID_Neck, KinectBody.JointID_Head],
 	[KinectBody.JointID_ShoulderLeft, KinectBody.JointID_ElbowLeft, KinectBody.JointID_WristLeft, KinectBody.JointID_HandLeft, KinectBody.JointID_HandTipLeft, KinectBody.JointID_ThumbLeft],
@@ -191,6 +194,9 @@ func pop_limb(joint_id) -> void:
 		node.pop()
 
 	popped_limbs.append(limb)
+	### Anneriet new: for showing game over:
+	if len(popped_limbs == 5):
+		game_over.emit()
 
 func restore_limb() -> void:
 	# nothing to do
