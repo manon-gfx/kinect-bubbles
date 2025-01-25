@@ -55,7 +55,7 @@ func _ready() -> void:
 		print("failed to find the kinect node :(")
 	else:
 		for bone_index in range(bones.size()):
-			for i in range(5):
+			for i in range(4):
 				var bubble = kinect_body_node.instantiate()
 				bubble.name = "Bubble_" + str(bone_index) + "_" + str(i)
 				add_child(bubble)
@@ -95,8 +95,8 @@ func _process(delta: float) -> void:
 		for bone_index in range(bones.size()):
 			var a = joint_positions[bones[bone_index][0]]
 			var b = joint_positions[bones[bone_index][1]]
-			for i in range(5):
-				var t = i / 5.0
+			for i in range(4):
+				var t = i / 4.0
 				var pos = a * (1 - t) + b * t
 				# var bubble = kinect_body_node.instantiate()
 				var bubble = self.get_node("Bubble_" + str(bone_index) + "_" + str(i))
