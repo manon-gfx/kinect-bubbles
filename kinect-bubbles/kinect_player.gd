@@ -2,7 +2,7 @@ extends Node3D
 
 var kinect_node = null;
 var player_size = 5
-var joint_radius = 0.1
+var joint_radius = 0.2
 var joint_factors = [2.0, 1.0, 0.5, 2.0, 
 					1.0, 1.0, 1.0, 2.0,
  					1.0, 1.0, 1.0, 2.0,
@@ -51,7 +51,6 @@ func _ready() -> void:
 	var root = get_tree().root.get_child(0)
 
 	for child in root.get_children():
-		print(child.name)
 		if child.is_class("KinectNode"):
 			self.kinect_node = child as KinectNode
 			break
@@ -78,7 +77,7 @@ func _process(delta: float) -> void:
 		
 		for joint_id in range(KinectBody.JointID_Count):
 			var kin_pos = body.get_joint_position(joint_id)
-			var scene_pos = kin_pos * player_size
+			var scene_pos = kin_pos * player_size				
 			var joint = self.get_node("Joint" + str(joint_id))
 			joint.set_position(scene_pos)
 			
