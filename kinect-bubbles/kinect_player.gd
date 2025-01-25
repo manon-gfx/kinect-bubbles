@@ -20,6 +20,8 @@ var limbs = [
 	[KinectBody.JointID_HipRight, KinectBody.JointID_KneeRight, KinectBody.JointID_AnkleRight, KinectBody.JointID_FootRight],
 ]
 
+var popped_limbs = []
+
 var limb_to_bone = [
 	[],
 	[],
@@ -170,17 +172,40 @@ func pop_limb(joint_id) -> void:
 	if limb == LIMB_OTHER:
 		return
 		
+	# limb already popped
+	if self.popped_limbs.has(limb):
+		return
+		
 	var bone_list = limb_to_bone[limb]
 	for bone in bone_list:
 		for i in range(VISUAL_COUNT):
 			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
-			#node.$AnimatedSprite3D.play("pop")
 			node.pop()
 	pass
 	
 	for joint in limb_to_joints[limb]:
 		var node = get_node("Bubble_" + str(joint))
 		node.pop()
+
+	popped_limbs.append(limb)
+
+func restore_limb() -> void:
+	# nothing to do
+	if popped_limbs.size() == 0:
+		return
+	
+	var limb = popped_limbs.pop_front()
+	
+	var bone_list = limb_to_bone[limb]
+	for bone in bone_list:
+		for i in range(VISUAL_COUNT):
+			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
+			node.spawn()
+	pass
+	
+	for joint in limb_to_joints[limb]:
+		var node = get_node("Bubble_" + str(joint))
+		node.spawn()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

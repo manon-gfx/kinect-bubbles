@@ -10,6 +10,8 @@ const SPEED = 25.0;
 
 func pop() -> void:
 	$AnimatedSprite3D.play("pop")
+func spawn() -> void:
+	$AnimatedSprite3D.play("default")
 
 func _ready() -> void:
 	pass
