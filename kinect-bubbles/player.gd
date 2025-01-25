@@ -19,6 +19,10 @@ func _ready() -> void:
 		joint.name = "Joint" + str(joint_id)
 		joint.position = Vector3(0, joint_id, 0)
 		add_child(joint)
+		#var collisionShape = CollisionShape3D.new()
+		#collisionShape.shape = joint.get_node("CollisionShape3D").shape
+		#add_child(collisionShape)
+		
 	
 	
 func _physics_process(delta):

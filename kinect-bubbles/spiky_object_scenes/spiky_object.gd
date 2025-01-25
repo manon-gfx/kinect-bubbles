@@ -11,7 +11,7 @@ var spike_name = "default"
 
 
 func touched_spike():
-	#print("touched spike: ", spike_name, "!")
+	print("touched spike: ", spike_name, "!")
 	# set the mesh to invisible so it is not still visible when the bubble is popping
 	#$MeshInstance3D.visible = false
 
@@ -31,8 +31,8 @@ func get_camera_pos_for_init(start_position: Vector3, _rotation_amount: float) -
 	look_at_from_position(start_position, camera_pos, Vector3.UP)
 	
 # rotate sprite by certain amount of radians (probably) while it keeps looking at the camera
-func rotate_sprite(rotation_amount: float):
+func rotate_sprite(_rotation_amount: float):
 	camera_pos = get_viewport().get_camera_3d().global_transform.origin
 	camera_pos.y = global_position.y
-	look_at(camera_pos, Vector3(0, 1, 0).rotated(rotation_axis, total_rotation))
+	look_at(camera_pos, Vector3(0, 1, 0).rotated(rotation_axis, _rotation_amount))
 	
