@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 # emit when the player pops a bubble
-signal popped
+signal popped(name)
 
 
 func pop():
@@ -10,7 +10,8 @@ func pop():
 	$MeshInstance3D.visible = false
 
 	$AnimatedSprite3D.play("pop")
-	popped.emit()
+	popped.emit(name)
+
 	
 	
 #func _ready() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://oxviehss10nk"]
+[gd_scene load_steps=15 format=3 uid="uid://oxviehss10nk"]
 
 [ext_resource type="Texture2D" uid="uid://dduudmq11w0j1" path="res://assets/Bubblecloudsgraphic--1r441c2m589g8g4n56/clouds.svg" id="1_00i0w"]
 [ext_resource type="Script" path="res://main_scene/main.gd" id="1_l0gup"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://de57n0x8kl5fe" path="res://kinect_player.tscn" id="5_glhta"]
 [ext_resource type="Script" path="res://kinect_player.gd" id="6_88pvh"]
 [ext_resource type="PackedScene" uid="uid://bvr3vnb3jpier" path="res://spiky_object_scenes/spiky_object.tscn" id="7_7710t"]
+[ext_resource type="Script" path="res://main_scene/user_interface.gd" id="8_a4ary"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8ocqn"]
 size = Vector3(60, 2, 30)
@@ -85,3 +86,20 @@ shape = SubResource("BoxShape3D_bymit")
 
 [node name="SpikyObject" parent="." instance=ExtResource("7_7710t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, 13.1743)
+
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("8_a4ary")
+
+[node name="Label" type="Label" parent="UserInterface"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Score: 0"
+
+[connection signal="popped" from="Bubble" to="UserInterface" method="_on_bubble_popped"]
+[connection signal="spiked" from="SpikyObject" to="UserInterface" method="_on_spike_touched"]

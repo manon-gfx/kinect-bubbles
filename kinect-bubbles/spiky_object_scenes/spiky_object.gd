@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 # emit when the player pops a bubble
-signal spiked
+signal spiked(name)
 
 var rotation_axis = Vector3(0, 0, 1) 
 var rotation_amount = 0.1
@@ -15,7 +15,7 @@ func touched_spike():
 	# set the mesh to invisible so it is not still visible when the bubble is popping
 	#$MeshInstance3D.visible = false
 
-	spiked.emit()
+	spiked.emit(name)
 	
 # rotate sprite by certain amount of radians (probably) while it keeps looking at the camera
 func initialize(start_position: Vector3, _rotation_amount: float, _spike_name) -> void:

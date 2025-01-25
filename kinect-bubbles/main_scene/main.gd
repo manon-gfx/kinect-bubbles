@@ -3,6 +3,7 @@ extends Node
 #@export var bubble_scene: PackedScene
 
 var bubble_scene = preload("res://bubble_scene/bubble.tscn")
+var spike_scene = preload("res://spiky_object_scenes/spiky_object.tscn")
 var min_x
 var max_x
 var min_y
@@ -10,7 +11,8 @@ var max_y
 var min_z
 var max_z
 
-var number_of_bubbles = 5
+var number_of_bubbles = 10
+var number_of_spikes = 5
 
 var spawn_location = Vector3(2, 5, 3)
 var bubble_radius = 1.8
@@ -39,15 +41,26 @@ func _ready() -> void:
 	
 	var rng = RandomNumberGenerator.new()
 
-	var my_random_number = rng.randf_range(-10.0, 10.0)
-	
 	for i in range(number_of_bubbles):
 		
 		var bubble = bubble_scene.instantiate()
 		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), rng.randf_range(min_z, max_z))
+		# bubble initialize: pos, radius, name
 		bubble.initialize(spawn_location, 0, i)
 		# Spawn the bubble by adding it to the Main scene.
 		add_child(bubble)
+		bubble.popped.connect($UserInterface._on_bubble_popped)
+	
+	for i in range(number_of_spikes):
+		
+		var spike = spike_scene.instantiate()
+		spawn_location = Vector3(rng.randf_range(min_x, max_x), rng.randf_range(min_y, max_y), rng.randf_range(min_z, max_z))
+		# bubble initialize: pos, radius, name
+		spike.initialize(spawn_location, 0, i)
+		# Spawn the bubble by adding it to the Main scene.
+		add_child(spike)
+		spike.spiked.connect($UserInterface._on_spike_touched)
+	#pass
 	#pass
 	
 	
