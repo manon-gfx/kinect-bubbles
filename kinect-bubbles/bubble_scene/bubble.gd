@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 	
 	if target.x < -40 or target.x > 40 or target.y < -5 or target.y > 40:
 		if position.x < -40 or position.x > 40 or position.y < -5 or position.y > 40:
-			pop()
+			queue_free()
 
 # remove the node from memory after the animation has finished playing
 func _on_animated_sprite_3d_animation_finished() -> void:
