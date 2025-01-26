@@ -198,5 +198,5 @@ func _on_spike_timer_timeout() -> void:
 
 func _on_bubble_timer_timeout() -> void:
 	#$BubbleAndSpikeTimer.wait_time = rng.randf_range(1,6)
-	$BubbleTimer.wait_time = rng.randf_range(1.0, 2.0)
+	$BubbleTimer.wait_time = rng.randf_range(0.5, 1.5)
 	add_bubble_in_random_loc(rng)
