@@ -41,6 +41,10 @@ func initialize(start_position: Vector3, scale_factor: float, _bubble_name) -> v
 func _physics_process(delta: float) -> void:
 	target += drift * Vector3(rng.randfn(0.0, 1.0), rng.randfn(0.0, 1.0), 0.0) * delta
 	
+	if is_popped:
+		velocity = Vector3.ZERO
+		return
+
 	var a = stiffness * (target - position)
 	var dv = delta * a
 	velocity += dv
