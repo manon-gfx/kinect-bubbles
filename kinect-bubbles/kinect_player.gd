@@ -7,8 +7,6 @@ var current_body = -1
 var prev_best_candidate = -1
 var body_timer = -1
 
-const VISUAL_COUNT = 16
-
 const LIMB_OTHER = -1
 const LIMB_HEAD = 0
 const LIMB_ARM_LEFT = 1
@@ -114,7 +112,13 @@ var bones = [
 	[KinectBody.JointID_AnkleRight, KinectBody.JointID_FootRight],
 ]
 
-
+var bone_densities = [
+	24, 24, 4, 4, 
+	4, 16, 8, 8,
+	4, 16, 8, 8,
+	4, 32, 24, 8,
+	4, 32, 24, 8,
+]
 var joint_positions = []
 
 var kinect_body_node = preload("res://kinect_body_node/kinect_body_node.tscn")
@@ -159,13 +163,14 @@ func _ready() -> void:
 			var limb = joint_to_limb(joint_a)
 			if limb != LIMB_OTHER:
 				limb_to_bone[limb].append(bone_index)
-
-			for i in range(VISUAL_COUNT):
+			
+			var density = bone_densities[bone_index]
+			for i in range(density):
 				var bubble = player_bubble_visual.instantiate()
 				bubble.name = "VisualBubble_" + str(bone_index) + "_" + str(i)
 				var s = rng.randf_range(0.2, 0.5) / 5.0
 				bubble.target_scale = s;
-				bubble.tangent_offset = i / (VISUAL_COUNT as float)
+				bubble.tangent_offset = i / (density as float)
 				bubble.bitangent_offset = rng.randf_range(-0.4, 0.4)
 				add_child(bubble)
 				bubble.spawn()
@@ -188,7 +193,7 @@ func pop_limb(joint_id) -> void:
 
 	var bone_list = limb_to_bone[limb]
 	for bone in bone_list:
-		for i in range(VISUAL_COUNT):
+		for i in range(bone_densities[bone]):
 			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
 			var time_offset = rng.randf_range(0.0, 0.5)
 			var play_sound = rng.randi_range(0, 5) == 0
@@ -211,7 +216,7 @@ func restore_limb() -> void:
 
 	var bone_list = limb_to_bone[limb]
 	for bone in bone_list:
-		for i in range(VISUAL_COUNT):
+		for i in range(bone_densities[bone]):
 			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
 			node.spawn()
 	pass
@@ -294,7 +299,7 @@ func _process(delta: float) -> void:
 				## var bubble = kinect_body_node.instantiate()
 				#var bubble = self.get_node("Bubble_" + str(bone_index) + "_" + str(i))
 				#bubble.set_position(pos)
-			for i in range(VISUAL_COUNT):
+			for i in range(bone_densities[bone_index]):
 				var bubble = self.get_node("VisualBubble_" + str(bone_index) + "_" + str(i))
 
 				var pos = a.lerp(b, bubble.tangent_offset);
