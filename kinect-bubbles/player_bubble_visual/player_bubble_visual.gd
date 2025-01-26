@@ -37,7 +37,12 @@ func _process(delta: float) -> void:
 		$AnimatedSprite3D.play("pop")
 		delayed_pop_time = -1
 	
-	set_scale(scale.lerp(Vector3(target_scale, target_scale, target_scale), delta))
+	var real_target_scale = target_scale	
+	var kinect_player = self.get_parent()
+	if kinect_player.name == "KinectPlayer": # WTF Godot
+		real_target_scale = target_scale * kinect_player.player_size
+	
+	set_scale(scale.lerp(Vector3(real_target_scale, real_target_scale, real_target_scale), delta))
 	
 	var speed = SPEED;
 	#var diff = target_position - self.position

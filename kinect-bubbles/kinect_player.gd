@@ -77,21 +77,22 @@ func joint_to_limb(joint_id) -> int:
 #};
 
 var kinect_node = null;
-var player_size = 5.0
+var player_size = 2.0
 var bones = [
 	# core
 	[KinectBody.JointID_SpineBase, KinectBody.JointID_SpineMid],
-	[KinectBody.JointID_SpineMid, KinectBody.JointID_Neck],
+	[KinectBody.JointID_SpineMid, KinectBody.JointID_SpineShoulder],
+	[KinectBody.JointID_SpineShoulder, KinectBody.JointID_Neck],
 	[KinectBody.JointID_Neck, KinectBody.JointID_Head],
 
 	#left arm and shoulder
-	[KinectBody.JointID_SpineMid, KinectBody.JointID_ShoulderLeft],
+	[KinectBody.JointID_SpineShoulder, KinectBody.JointID_ShoulderLeft],
 	[KinectBody.JointID_ShoulderLeft, KinectBody.JointID_ElbowLeft],
 	[KinectBody.JointID_ElbowLeft, KinectBody.JointID_WristLeft],
 	[KinectBody.JointID_WristLeft, KinectBody.JointID_HandLeft],
 
 	#left arm and shoulder
-	[KinectBody.JointID_SpineMid, KinectBody.JointID_ShoulderRight],
+	[KinectBody.JointID_SpineShoulder, KinectBody.JointID_ShoulderRight],
 	[KinectBody.JointID_ShoulderRight, KinectBody.JointID_ElbowRight],
 	[KinectBody.JointID_ElbowRight, KinectBody.JointID_WristRight],
 	[KinectBody.JointID_WristRight, KinectBody.JointID_HandRight],
@@ -114,6 +115,10 @@ var joint_positions = []
 
 var kinect_body_node = preload("res://kinect_body_node/kinect_body_node.tscn")
 var player_bubble_visual = preload("res://player_bubble_visual/player_bubble_visual.tscn")
+
+func grow() -> void:
+	player_size += 0.2
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rng.set_seed(hash("manon"));
@@ -139,9 +144,9 @@ func _ready() -> void:
 			var bubble = kinect_body_node.instantiate()
 			bubble.name = "Bubble_" + str(i)
 			bubble.joint_id = i;
-			bubble.target_scale = 1.0;
+			bubble.target_scale = 1.0 / 5.0;
 			if i == KinectBody.JointID_Head:
-				bubble.target_scale = 2.0;
+				bubble.target_scale = 2.0 / 5.0;
 			add_child(bubble)
 			bubble.spawn()
 
@@ -154,7 +159,7 @@ func _ready() -> void:
 			for i in range(VISUAL_COUNT):
 				var bubble = player_bubble_visual.instantiate()
 				bubble.name = "VisualBubble_" + str(bone_index) + "_" + str(i)
-				var s = rng.randf_range(0.2, 0.5)
+				var s = rng.randf_range(0.2, 0.5) / 5.0
 				bubble.target_scale = s;
 				bubble.tangent_offset = i / (VISUAL_COUNT as float)
 				bubble.bitangent_offset = rng.randf_range(-0.4, 0.4)
@@ -193,8 +198,9 @@ func pop_limb(joint_id) -> void:
 	popped_limbs.append(limb)
 
 func restore_limb() -> void:
-	# nothing to do
+	# grow if nothing to heal
 	if popped_limbs.size() == 0:
+		grow()
 		return
 	
 	var limb = popped_limbs.pop_front()
@@ -257,4 +263,4 @@ func _process(delta: float) -> void:
 				var pos = a.lerp(b, bubble.tangent_offset);
 				var tangent = (b - a).normalized();
 				var bitangent = Vector3(-tangent.y, tangent.x, 0)
-				bubble.target_position = pos + bitangent * bubble.bitangent_offset;
+				bubble.target_position = pos + bitangent * bubble.bitangent_offset * (player_size / 5.0);
