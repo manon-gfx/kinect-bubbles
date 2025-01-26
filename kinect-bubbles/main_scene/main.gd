@@ -135,7 +135,7 @@ func calc_spawn_location(rng):
 func add_bubble_in_random_loc(rng):
 	# bubble initialize: pos, radius, name
 	var bubble = bubble_scene.instantiate()
-	bubble.initialize(calc_spawn_location(rng), rng.randf_range(0.2,1.0), rng.randi())
+	bubble.initialize(calc_spawn_location(rng), rng.randf_range(0.2,0.7), rng.randi())
 
 	# Spawn the bubble by adding it to the Main scene.
 	add_child(bubble)
@@ -198,5 +198,5 @@ func _on_spike_timer_timeout() -> void:
 
 func _on_bubble_timer_timeout() -> void:
 	#$BubbleAndSpikeTimer.wait_time = rng.randf_range(1,6)
-	$BubbleTimer.wait_time = rng.randf_range(0.5, 1.5)
+	$BubbleTimer.wait_time = rng.randf_range(0.4, 1.3)
 	add_bubble_in_random_loc(rng)
