@@ -166,14 +166,23 @@ func _ready() -> void:
 			
 			var density = bone_densities[bone_index]
 			for i in range(density):
-				var bubble = player_bubble_visual.instantiate()
-				bubble.name = "VisualBubble_" + str(bone_index) + "_" + str(i)
+				var visual_bubble = player_bubble_visual.instantiate()
+				visual_bubble.name = "VisualBubble_" + str(bone_index) + "_" + str(i)
 				var s = rng.randf_range(0.2, 0.5) / 5.0
-				bubble.target_scale = s;
-				bubble.tangent_offset = i / (density as float)
-				bubble.bitangent_offset = rng.randf_range(-0.4, 0.4)
-				add_child(bubble)
-				bubble.spawn()
+				visual_bubble.target_scale = s;
+				visual_bubble.tangent_offset = i / (density as float)
+				visual_bubble.bitangent_offset = rng.randf_range(-0.4, 0.4)
+				add_child(visual_bubble)
+				visual_bubble.spawn()
+				
+				var collision_bubble = kinect_body_node.instantiate()
+				collision_bubble.name = "CollisionBubble_" + str(bone_index) + "_" + str(i)
+				collision_bubble.joint_id = joint_a;
+				collision_bubble.target_scale = 1.0 / 5.0;
+				add_child(collision_bubble)
+				collision_bubble.spawn()
+				collision_bubble.visible = false
+
 		# Debug ground plane
 		# var plane_mesh = PlaneMesh.new()
 		# var plane = MeshInstance3D.new()
@@ -194,11 +203,13 @@ func pop_limb(joint_id) -> void:
 	var bone_list = limb_to_bone[limb]
 	for bone in bone_list:
 		for i in range(bone_densities[bone]):
-			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
+			var visual_bubble = get_node("VisualBubble_" + str(bone) + "_" + str(i))
 			var time_offset = rng.randf_range(0.0, 0.5)
 			var play_sound = rng.randi_range(0, 5) == 0
-			node.pop(time_offset, play_sound)
-	pass
+			visual_bubble.pop(time_offset, play_sound)
+			
+			var collision_bubble = get_node("CollisionBubble_" + str(bone) + "_" + str(i))
+			collision_bubble.disabled = true
 
 	for joint in limb_to_joints[limb]:
 		var node = get_node("Bubble_" + str(joint))
@@ -217,9 +228,11 @@ func restore_limb() -> void:
 	var bone_list = limb_to_bone[limb]
 	for bone in bone_list:
 		for i in range(bone_densities[bone]):
-			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
-			node.spawn()
-	pass
+			var visual_bubble = get_node("VisualBubble_" + str(bone) + "_" + str(i))
+			visual_bubble.spawn()
+
+			var collision_bubble = get_node("CollisionBubble_" + str(bone) + "_" + str(i))
+			collision_bubble.spawn()
 
 	for joint in limb_to_joints[limb]:
 		var node = get_node("Bubble_" + str(joint))
@@ -299,10 +312,13 @@ func _process(delta: float) -> void:
 				## var bubble = kinect_body_node.instantiate()
 				#var bubble = self.get_node("Bubble_" + str(bone_index) + "_" + str(i))
 				#bubble.set_position(pos)
-			for i in range(bone_densities[bone_index]):
-				var bubble = self.get_node("VisualBubble_" + str(bone_index) + "_" + str(i))
-
-				var pos = a.lerp(b, bubble.tangent_offset);
+			var density = bone_densities[bone_index]
+			for i in range(density):
+				var visual_bubble = self.get_node("VisualBubble_" + str(bone_index) + "_" + str(i))
+				var pos = a.lerp(b, visual_bubble.tangent_offset);
 				var tangent = (b - a).normalized();
 				var bitangent = Vector3(-tangent.y, tangent.x, 0)
-				bubble.target_position = pos + bitangent * bubble.bitangent_offset * (player_size / 5.0);
+				visual_bubble.target_position = pos + bitangent * visual_bubble.bitangent_offset * (player_size / 5.0);
+
+				var collision_bubble = self.get_node("CollisionBubble_" + str(bone_index) + "_" + str(i))
+				collision_bubble.position = pos
