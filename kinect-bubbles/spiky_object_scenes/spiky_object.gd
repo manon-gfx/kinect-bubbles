@@ -19,9 +19,10 @@ func initialize(start_position: Vector3, scale_factor: float, _spike_name):
 	spike_name = _spike_name
 	position = start_position
 	scale = Vector3(scale_factor, scale_factor, scale_factor)
+	collision_mask = 1
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if position.x < -40 or position.x > 40:
 		direction.x = -direction.x
 	if position.y < 0 or position.y > 40: 
@@ -29,4 +30,9 @@ func _process(delta: float) -> void:
 
 	var dv = speed * direction * delta
 	velocity += dv
-	move_and_collide(dv)
+	var collision = move_and_collide(dv)
+	
+	if collision:
+		var collider = collision.get_collider()
+		if collider.is_in_group("bubble"):
+			collider.pop()

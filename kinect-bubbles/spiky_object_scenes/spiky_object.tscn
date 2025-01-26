@@ -7,8 +7,6 @@
 radius = 2.6
 
 [node name="SpikyObject" type="CharacterBody3D" groups=["spiky_object"]]
-collision_layer = 2
-collision_mask = 0
 script = ExtResource("1_2hm5y")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]

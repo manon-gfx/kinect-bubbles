@@ -64,7 +64,6 @@ radius = 1.8
 height = 3.6
 
 [node name="Bubble" type="CharacterBody3D" groups=["bubble"]]
-collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_fhebr")
 
