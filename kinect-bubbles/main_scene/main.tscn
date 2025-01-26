@@ -161,16 +161,6 @@ theme_override_fonts/font = ExtResource("9_8dgeb")
 theme_override_font_sizes/font_size = 300
 text = "GAME OVER"
 
-[node name="BubbleTimer" type="Timer" parent="."]
-autostart = true
-
-[node name="SpikeTimer" type="Timer" parent="."]
-wait_time = 5.0
-autostart = true
-
-[connection signal="timeout" from="BubbleTimer" to="." method="_on_bubble_timer_timeout"]
-[connection signal="timeout" from="SpikeTimer" to="." method="_on_spike_timer_timeout"]
-
 [node name="Button" type="Button" parent="UserInterface/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -185,4 +175,13 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_4fy3h")
 text = "Try again?"
 icon_alignment = 1
 
+[node name="BubbleTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="SpikeTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
 [connection signal="pressed" from="UserInterface/VBoxContainer/Button" to="UserInterface" method="_on_try_again"]
+[connection signal="timeout" from="BubbleTimer" to="." method="_on_bubble_timer_timeout"]
+[connection signal="timeout" from="SpikeTimer" to="." method="_on_spike_timer_timeout"]

@@ -116,7 +116,7 @@ var bones = [
 ]
 
 var bone_densities = [
-	24, 24, 4, 4, 
+	24, 24, 4, 4,
 	4, 16, 8, 8,
 	4, 16, 8, 8,
 	4, 32, 24, 8,
@@ -166,7 +166,7 @@ func _ready() -> void:
 			var limb = joint_to_limb(joint_a)
 			if limb != LIMB_OTHER:
 				limb_to_bone[limb].append(bone_index)
-			
+
 			var density = bone_densities[bone_index]
 			for i in range(density):
 				var visual_bubble = player_bubble_visual.instantiate()
@@ -177,7 +177,7 @@ func _ready() -> void:
 				visual_bubble.bitangent_offset = rng.randf_range(-0.4, 0.4)
 				add_child(visual_bubble)
 				visual_bubble.spawn()
-				
+
 				var collision_bubble = kinect_body_node.instantiate()
 				collision_bubble.name = "CollisionBubble_" + str(bone_index) + "_" + str(i)
 				collision_bubble.joint_id = joint_a;
@@ -210,7 +210,7 @@ func pop_limb(joint_id) -> void:
 			var time_offset = rng.randf_range(0.0, 0.5)
 			var play_sound = rng.randi_range(0, 5) == 0
 			visual_bubble.pop(time_offset, play_sound)
-			
+
 			var collision_bubble = get_node("CollisionBubble_" + str(bone) + "_" + str(i))
 			collision_bubble.disabled = true
 
@@ -220,7 +220,7 @@ func pop_limb(joint_id) -> void:
 
 	popped_limbs.append(limb)
 	### Anneriet new: for showing game over:
-	if len(popped_limbs):
+	if len(popped_limbs) == 5:
 		game_over.emit()
 
 func restore_limb() -> void:
