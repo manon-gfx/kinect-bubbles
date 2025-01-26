@@ -158,8 +158,6 @@ func add_spike_in_random_loc(rng):
 		2: # Top
 			spawn_location = Vector3(rng.randf_range(min_x, max_x), max_y + offset, Z_COORD_COLLIDERS)
 
-	print("center:" + str(center) + " Spawn Location: " + str(spawn_location))
-
 	spawn_direction = (target - spawn_location).normalized()
 
 	spiky.initialize(
