@@ -195,7 +195,7 @@ func pop_limb(joint_id) -> void:
 
 	popped_limbs.append(limb)
 	### Anneriet new: for showing game over:
-	if len(popped_limbs == 5):
+	if len(popped_limbs):
 		game_over.emit()
 
 func restore_limb() -> void:

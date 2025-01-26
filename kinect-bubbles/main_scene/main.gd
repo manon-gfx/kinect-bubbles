@@ -109,6 +109,9 @@ func add_spike_in_random_loc(rng):
 func _on_bubble_and_spike_timer_timeout() -> void:
 	#$BubbleAndSpikeTimer.wait_time = rng.randf_range(1,6)
 	$BubbleAndSpikeTimer.wait_time = rng.randf_range(0,1)
+	## Anneriet: Voor testen
+	#add_spike_in_random_loc(rng) # to get more spikes
+	
 	if rng.randf() > 0.8:
 		add_spike_in_random_loc(rng)
 	else:
