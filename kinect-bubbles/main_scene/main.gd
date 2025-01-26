@@ -100,7 +100,9 @@ func add_spike_in_random_loc(rng):
 	
 	
 	var spiky = list_of_spiky_objects.pick_random().instantiate()
-	spiky.initialize(calc_spawn_location(rng), rng.randf_range(0.2,0.6), rng.randi())
+	
+	### Anneriet: added a randomized rotation value (between -0.1 and +0.1 seems ok)
+	spiky.initialize(calc_spawn_location(rng), rng.randf_range(0.2,0.6), rng.randi(), rng.randf_range(-0.1, 0.1))
 	
 
 
@@ -112,8 +114,8 @@ func add_spike_in_random_loc(rng):
 func _on_bubble_and_spike_timer_timeout() -> void:
 	#$BubbleAndSpikeTimer.wait_time = rng.randf_range(1,6)
 	$BubbleAndSpikeTimer.wait_time = rng.randf_range(0,1)
-	## Anneriet: Voor testen
-	#add_spike_in_random_loc(rng) # to get more spikes
+	# Anneriet: Voor testen
+	add_spike_in_random_loc(rng) # to get more spikes
 	
 	if rng.randf() > 0.8:
 		add_spike_in_random_loc(rng)
