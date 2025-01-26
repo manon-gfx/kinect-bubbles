@@ -5,6 +5,7 @@ var disabled = false
 var target_scale = 1.0
 
 func _on_body_entered(body: Node) -> void:
+	print("body entered: ", body.get_groups())
 	# Skip collisions if disabled
 	if disabled:
 		return;
@@ -40,3 +41,8 @@ func spawn() -> void:
 	$AnimatedSprite3D.play("default")
 	disabled = false
 	$CollisionShape3D.disabled = false # Doesn't seem to do anything?
+
+
+func _on_area_entered(area: Area3D) -> void:
+	print("area entered: ", area)
+	pass # Replace with function body.

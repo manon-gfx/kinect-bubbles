@@ -8,6 +8,7 @@ height = 3.0
 radius = 0.8
 
 [node name="SpikyObject" type="CharacterBody3D" groups=["spiky_object"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62445, 0)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_nskyu")
