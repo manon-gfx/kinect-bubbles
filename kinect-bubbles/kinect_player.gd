@@ -18,7 +18,7 @@ const LIMB_LEG_RIGHT = 4
 signal game_over
 
 var limbs = [
-	[KinectBody.JointID_Neck, KinectBody.JointID_Head],
+	[KinectBody.JointID_SpineBase, KinectBody.JointID_SpineMid, KinectBody.JointID_SpineShoulder, KinectBody.JointID_Neck, KinectBody.JointID_Head],
 	[KinectBody.JointID_ShoulderLeft, KinectBody.JointID_ElbowLeft, KinectBody.JointID_WristLeft, KinectBody.JointID_HandLeft, KinectBody.JointID_HandTipLeft, KinectBody.JointID_ThumbLeft],
 	[KinectBody.JointID_ShoulderRight, KinectBody.JointID_ElbowRight, KinectBody.JointID_WristRight, KinectBody.JointID_HandRight, KinectBody.JointID_HandTipRight, KinectBody.JointID_ThumbRight],
 	[KinectBody.JointID_HipLeft, KinectBody.JointID_KneeLeft, KinectBody.JointID_AnkleLeft, KinectBody.JointID_FootLeft],
