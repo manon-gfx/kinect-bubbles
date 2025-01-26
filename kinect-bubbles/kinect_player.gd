@@ -3,6 +3,10 @@ extends Node3D
 var has_a_kinect = false
 var rng = RandomNumberGenerator.new()
 
+var current_body = -1
+var prev_best_candidate = -1
+var body_timer = -1
+
 const VISUAL_COUNT = 16
 
 const LIMB_OTHER = -1
@@ -140,7 +144,7 @@ func _ready() -> void:
 			var limb = joint_to_limb(i)
 			if limb != LIMB_OTHER:
 				limb_to_joints[limb].append(i)
-			
+
 			var bubble = kinect_body_node.instantiate()
 			bubble.name = "Bubble_" + str(i)
 			bubble.joint_id = i;
@@ -155,7 +159,7 @@ func _ready() -> void:
 			var limb = joint_to_limb(joint_a)
 			if limb != LIMB_OTHER:
 				limb_to_bone[limb].append(bone_index)
-			
+
 			for i in range(VISUAL_COUNT):
 				var bubble = player_bubble_visual.instantiate()
 				bubble.name = "VisualBubble_" + str(bone_index) + "_" + str(i)
@@ -177,11 +181,11 @@ func pop_limb(joint_id) -> void:
 	var limb = joint_to_limb(joint_id)
 	if limb == LIMB_OTHER:
 		return
-		
+
 	# limb already popped
 	if self.popped_limbs.has(limb):
 		return
-		
+
 	var bone_list = limb_to_bone[limb]
 	for bone in bone_list:
 		for i in range(VISUAL_COUNT):
@@ -190,7 +194,7 @@ func pop_limb(joint_id) -> void:
 			var play_sound = rng.randi_range(0, 5) == 0
 			node.pop(time_offset, play_sound)
 	pass
-	
+
 	for joint in limb_to_joints[limb]:
 		var node = get_node("Bubble_" + str(joint))
 		node.pop()
@@ -202,24 +206,57 @@ func restore_limb() -> void:
 	if popped_limbs.size() == 0:
 		grow()
 		return
-	
+
 	var limb = popped_limbs.pop_front()
-	
+
 	var bone_list = limb_to_bone[limb]
 	for bone in bone_list:
 		for i in range(VISUAL_COUNT):
 			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
 			node.spawn()
 	pass
-	
+
 	for joint in limb_to_joints[limb]:
 		var node = get_node("Bubble_" + str(joint))
 		node.spawn()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	var best_id = -1
+	var best_score
+	var current_valid = false
 	if self.kinect_node != null:
-		var body = self.kinect_node.get_body(0) as KinectBody
+		for i in range(6):
+			var b = self.kinect_node.get_body(i) as KinectBody
+			if !b.valid:
+				continue
+			if i == current_body:
+				current_valid = true
+			var pos = b.get_joint_position(KinectBody.JointID_SpineBase)
+			var score = (Vector2(pos.x, pos.z) - Vector2(0.0, -2.5)).length()
+			if best_id == -1 || score < best_score:
+				best_id = i
+				best_score = score
+
+		# couldn't find no body
+		if best_id == -1:
+			return
+		if current_body == -1 || !current_valid:
+			current_body = best_id
+			body_timer = Time.get_ticks_usec()
+		elif best_id == prev_best_candidate:
+			# Test timer
+			if Time.get_ticks_usec() >= body_timer:
+				current_body = best_id
+				# Assign new current body
+		else:
+			body_timer = Time.get_ticks_usec() + 2000000 # 2 seconds
+		prev_best_candidate = best_id
+
+		assert(current_body != -1)
+
+
+		var body = self.kinect_node.get_body(current_body)
 
 		# Acquire ground plane from the kinect
 		var plane_direction = Vector3(
