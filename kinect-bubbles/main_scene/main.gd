@@ -112,7 +112,7 @@ func _ready() -> void:
 		#add_spike_in_random_loc(rng)
 	if not $KinectPlayer.has_a_kinect:
 		$player.queue_free()
-	
+
 	### Anneriet new: For showing game over
 	$KinectPlayer.game_over.connect($UserInterface.show_game_over)
 

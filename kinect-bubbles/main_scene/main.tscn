@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://oxviehss10nk"]
+[gd_scene load_steps=27 format=3 uid="uid://oxviehss10nk"]
 
 [ext_resource type="Script" path="res://main_scene/main.gd" id="1_l0gup"]
 [ext_resource type="Texture2D" uid="uid://b7xfya6salxuf" path="res://assets/night-city-background-with-reflection/O4HFTW1.png" id="2_bcxwt"]
@@ -52,6 +52,18 @@ orientation = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bymit"]
 size = Vector3(40, 20, 8)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ieecs"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2th6j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ov01w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nhl87"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wgnxo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4fy3h"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_l0gup")
@@ -128,8 +140,7 @@ theme_override_fonts/font = ExtResource("9_8dgeb")
 theme_override_font_sizes/font_size = 150
 text = "Score: 0"
 
-[node name="GameOver" type="Label" parent="UserInterface"]
-visible = false
+[node name="VBoxContainer" type="VBoxContainer" parent="UserInterface"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -137,11 +148,14 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -897.0
-offset_top = -150.0
+offset_top = -167.5
 offset_right = 897.0
-offset_bottom = 150.0
+offset_bottom = 167.5
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="GameOver" type="Label" parent="UserInterface/VBoxContainer"]
+layout_mode = 2
 theme_override_colors/font_color = Color(0.605674, 5.41471e-07, 2.40654e-07, 1)
 theme_override_fonts/font = ExtResource("9_8dgeb")
 theme_override_font_sizes/font_size = 300
@@ -156,3 +170,19 @@ autostart = true
 
 [connection signal="timeout" from="BubbleTimer" to="." method="_on_bubble_timer_timeout"]
 [connection signal="timeout" from="SpikeTimer" to="." method="_on_spike_timer_timeout"]
+
+[node name="Button" type="Button" parent="UserInterface/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("9_8dgeb")
+theme_override_font_sizes/font_size = 200
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ieecs")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_2th6j")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ov01w")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_nhl87")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_wgnxo")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4fy3h")
+text = "Try again?"
+icon_alignment = 1
+
+[connection signal="pressed" from="UserInterface/VBoxContainer/Button" to="UserInterface" method="_on_try_again"]
