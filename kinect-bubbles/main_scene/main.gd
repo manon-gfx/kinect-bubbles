@@ -193,8 +193,23 @@ func add_spike_in_random_loc(rng):
 	spiky.spiked.connect($UserInterface._on_spike_touched)
 
 func _on_spike_timer_timeout() -> void:
-	$SpikeTimer.wait_time = rng.randf_range(4.0, 6.0)
-	add_spike_in_random_loc(rng)
+	var time = Time.get_ticks_msec() / 1000
+	
+	if time < 30:
+		print("0 < time < 30")
+		$SpikeTimer.wait_time = rng.randf_range(4.0, 6.0)
+	elif time < 90:
+		print("30 < time < 90")
+		$SpikeTimer.wait_time = rng.randf_range(2.0, 4.0)
+	elif time < 180:
+		print("90 < time < 180")
+		$SpikeTimer.wait_time = rng.randf_range(1.5, 3.0)
+	else:
+		print("180 < time")
+		$SpikeTimer.wait_time = rng.randf_range(1.0, 2.0)
+	
+	if time > 15:
+		add_spike_in_random_loc(rng)
 
 func _on_bubble_timer_timeout() -> void:
 	#$BubbleAndSpikeTimer.wait_time = rng.randf_range(1,6)
