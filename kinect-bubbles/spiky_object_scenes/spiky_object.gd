@@ -25,7 +25,8 @@ func initialize(
 	spike_name = _spike_name
 	position = start_position
 	scale = Vector3(scale_factor, scale_factor, scale_factor)
-	collision_mask = 1
+	collision_layer = 1
+	collision_mask = 0
 
 func _process(delta: float) -> void:
 	# if can_bounce:
@@ -42,9 +43,4 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	var dv = speed * direction * delta
 	velocity += dv
-	var collision = move_and_collide(dv)
-
-	if collision:
-		var collider = collision.get_collider()
-		if collider.is_in_group("bubble"):
-			collider.pop(false)
+	move_and_collide(dv)

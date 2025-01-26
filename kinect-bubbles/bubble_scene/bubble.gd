@@ -34,6 +34,8 @@ func initialize(start_position: Vector3, scale_factor: float, _bubble_name) -> v
 	position = start_position
 	bubble_name = _bubble_name
 	scale = Vector3(scale_factor, scale_factor, scale_factor)
+	collision_layer = 2
+	collision_mask = 1
 	
 
 func _physics_process(delta: float) -> void:
@@ -42,8 +44,13 @@ func _physics_process(delta: float) -> void:
 	var a = stiffness * (target - position)
 	var dv = delta * a
 	velocity += dv
-	move_and_collide(dv)
-	
+	var collision = move_and_collide(dv)
+
+	if collision:
+		var collider = collision.get_collider()
+		if collider.is_in_group("spiky_object"):
+			pop(false)
+			
 	if target.x < -40 or target.x > 40 or target.y < -5 or target.y > 40:
 		if position.x < -40 or position.x > 40 or position.y < -5 or position.y > 40:
 			queue_free()
