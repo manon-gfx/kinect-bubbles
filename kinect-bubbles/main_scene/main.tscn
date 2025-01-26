@@ -147,7 +147,12 @@ theme_override_fonts/font = ExtResource("9_8dgeb")
 theme_override_font_sizes/font_size = 300
 text = "GAME OVER"
 
-[node name="BubbleAndSpikeTimer" type="Timer" parent="."]
+[node name="BubbleTimer" type="Timer" parent="."]
 autostart = true
 
-[connection signal="timeout" from="BubbleAndSpikeTimer" to="." method="_on_bubble_and_spike_timer_timeout"]
+[node name="SpikeTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="BubbleTimer" to="." method="_on_bubble_timer_timeout"]
+[connection signal="timeout" from="SpikeTimer" to="." method="_on_spike_timer_timeout"]
