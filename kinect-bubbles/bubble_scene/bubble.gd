@@ -1,11 +1,11 @@
 extends CharacterBody3D
 
 # emit when the player pops a bubble
-signal popped(name)
+signal popped(increment_score)
 
 var is_popped = false
 
-func pop():
+func pop(increment_score=true):
 	# skip double pops
 	if is_popped:
 		return
@@ -19,7 +19,8 @@ func pop():
 	$AnimatedSprite3D.play("pop")
 	
 	is_popped = true
-	popped.emit(name)
+
+	popped.emit(increment_score)
 
 var bubble_name = "default"
 

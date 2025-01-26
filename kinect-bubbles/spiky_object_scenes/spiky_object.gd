@@ -35,4 +35,4 @@ func _physics_process(delta: float) -> void:
 	if collision:
 		var collider = collision.get_collider()
 		if collider.is_in_group("bubble"):
-			collider.pop()
+			collider.pop(false)
