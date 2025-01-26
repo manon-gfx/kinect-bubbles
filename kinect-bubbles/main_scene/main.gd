@@ -44,6 +44,9 @@ func _unhandled_input(event):
 				esc_pressed_once = true
 		elif event.keycode != KEY_ESCAPE:
 			esc_pressed_once = false
+		### Anneriet: reset everything on pressing space (no need to go to game over screen first)
+		if event.pressed and event.keycode == KEY_SPACE:
+			get_tree().reload_current_scene() 
 			
 		
 var rng: RandomNumberGenerator
