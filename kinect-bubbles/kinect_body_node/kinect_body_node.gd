@@ -23,7 +23,12 @@ func _on_body_entered(body: Node) -> void:
 			kinect_player.pop_limb(self.joint_id)
 
 func _process(delta: float) -> void:
-	set_scale(scale.lerp(Vector3(target_scale, target_scale, target_scale), delta))
+	var real_target_scale = target_scale
+	var kinect_player = self.get_parent()
+	if kinect_player.name == "KinectPlayer": # WTF Godot
+		real_target_scale = target_scale * kinect_player.player_size
+
+	set_scale(scale.lerp(Vector3(real_target_scale, real_target_scale, real_target_scale), delta))
 
 func pop() -> void:
 	disabled = true

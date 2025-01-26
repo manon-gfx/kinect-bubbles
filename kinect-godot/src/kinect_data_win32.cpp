@@ -122,13 +122,13 @@ int fetchKinectBodies(KinectData* kinect, unsigned int body_capacity, godot::Ref
             continue;
         }
 
-        KinectBody* result_body = result_bodies[body_count].ptr();
+        KinectBody* result_body = result_bodies[i].ptr();
 
         BOOLEAN is_tracked = FALSE;
         HRESULT hr = bodies[i]->get_IsTracked(&is_tracked);
-        if (SUCCEEDED(hr) && is_tracked) {
-            result_body->valid = true;
+        result_body->valid = SUCCEEDED(hr) && is_tracked;
 
+        if (result_body->valid) {
             result_body->ground_plane = ground_plane;
 
             HandState left_hand_state;

@@ -3,7 +3,9 @@ extends Node3D
 var has_a_kinect = false
 var rng = RandomNumberGenerator.new()
 
-const VISUAL_COUNT = 16
+var current_body = -1
+var prev_best_candidate = -1
+var body_timer = -1
 
 const LIMB_OTHER = -1
 const LIMB_HEAD = 0
@@ -80,21 +82,22 @@ func joint_to_limb(joint_id) -> int:
 #};
 
 var kinect_node = null;
-var player_size = 5.0
+var player_size = 2.0
 var bones = [
 	# core
 	[KinectBody.JointID_SpineBase, KinectBody.JointID_SpineMid],
-	[KinectBody.JointID_SpineMid, KinectBody.JointID_Neck],
+	[KinectBody.JointID_SpineMid, KinectBody.JointID_SpineShoulder],
+	[KinectBody.JointID_SpineShoulder, KinectBody.JointID_Neck],
 	[KinectBody.JointID_Neck, KinectBody.JointID_Head],
 
 	#left arm and shoulder
-	[KinectBody.JointID_SpineMid, KinectBody.JointID_ShoulderLeft],
+	[KinectBody.JointID_SpineShoulder, KinectBody.JointID_ShoulderLeft],
 	[KinectBody.JointID_ShoulderLeft, KinectBody.JointID_ElbowLeft],
 	[KinectBody.JointID_ElbowLeft, KinectBody.JointID_WristLeft],
 	[KinectBody.JointID_WristLeft, KinectBody.JointID_HandLeft],
 
 	#left arm and shoulder
-	[KinectBody.JointID_SpineMid, KinectBody.JointID_ShoulderRight],
+	[KinectBody.JointID_SpineShoulder, KinectBody.JointID_ShoulderRight],
 	[KinectBody.JointID_ShoulderRight, KinectBody.JointID_ElbowRight],
 	[KinectBody.JointID_ElbowRight, KinectBody.JointID_WristRight],
 	[KinectBody.JointID_WristRight, KinectBody.JointID_HandRight],
@@ -112,11 +115,21 @@ var bones = [
 	[KinectBody.JointID_AnkleRight, KinectBody.JointID_FootRight],
 ]
 
-
+var bone_densities = [
+	24, 24, 4, 4, 
+	4, 16, 8, 8,
+	4, 16, 8, 8,
+	4, 32, 24, 8,
+	4, 32, 24, 8,
+]
 var joint_positions = []
 
 var kinect_body_node = preload("res://kinect_body_node/kinect_body_node.tscn")
 var player_bubble_visual = preload("res://player_bubble_visual/player_bubble_visual.tscn")
+
+func grow() -> void:
+	player_size += 0.2
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rng.set_seed(hash("manon"));
@@ -138,13 +151,13 @@ func _ready() -> void:
 			var limb = joint_to_limb(i)
 			if limb != LIMB_OTHER:
 				limb_to_joints[limb].append(i)
-			
+
 			var bubble = kinect_body_node.instantiate()
 			bubble.name = "Bubble_" + str(i)
 			bubble.joint_id = i;
-			bubble.target_scale = 1.0;
+			bubble.target_scale = 1.0 / 5.0;
 			if i == KinectBody.JointID_Head:
-				bubble.target_scale = 2.0;
+				bubble.target_scale = 2.0 / 5.0;
 			add_child(bubble)
 			bubble.spawn()
 
@@ -154,12 +167,13 @@ func _ready() -> void:
 			if limb != LIMB_OTHER:
 				limb_to_bone[limb].append(bone_index)
 			
-			for i in range(VISUAL_COUNT):
+			var density = bone_densities[bone_index]
+			for i in range(density):
 				var bubble = player_bubble_visual.instantiate()
 				bubble.name = "VisualBubble_" + str(bone_index) + "_" + str(i)
-				var s = rng.randf_range(0.2, 0.5)
+				var s = rng.randf_range(0.2, 0.5) / 5.0
 				bubble.target_scale = s;
-				bubble.tangent_offset = i / (VISUAL_COUNT as float)
+				bubble.tangent_offset = i / (density as float)
 				bubble.bitangent_offset = rng.randf_range(-0.4, 0.4)
 				add_child(bubble)
 				bubble.spawn()
@@ -175,20 +189,20 @@ func pop_limb(joint_id) -> void:
 	var limb = joint_to_limb(joint_id)
 	if limb == LIMB_OTHER:
 		return
-		
+
 	# limb already popped
 	if self.popped_limbs.has(limb):
 		return
-		
+
 	var bone_list = limb_to_bone[limb]
 	for bone in bone_list:
-		for i in range(VISUAL_COUNT):
+		for i in range(bone_densities[bone]):
 			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
 			var time_offset = rng.randf_range(0.0, 0.5)
 			var play_sound = rng.randi_range(0, 5) == 0
 			node.pop(time_offset, play_sound)
 	pass
-	
+
 	for joint in limb_to_joints[limb]:
 		var node = get_node("Bubble_" + str(joint))
 		node.pop()
@@ -199,27 +213,61 @@ func pop_limb(joint_id) -> void:
 		game_over.emit()
 
 func restore_limb() -> void:
-	# nothing to do
+	# grow if nothing to heal
 	if popped_limbs.size() == 0:
+		grow()
 		return
-	
+
 	var limb = popped_limbs.pop_front()
-	
+
 	var bone_list = limb_to_bone[limb]
 	for bone in bone_list:
-		for i in range(VISUAL_COUNT):
+		for i in range(bone_densities[bone]):
 			var node = get_node("VisualBubble_" + str(bone) + "_" + str(i))
 			node.spawn()
 	pass
-	
+
 	for joint in limb_to_joints[limb]:
 		var node = get_node("Bubble_" + str(joint))
 		node.spawn()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	var best_id = -1
+	var best_score
+	var current_valid = false
 	if self.kinect_node != null:
-		var body = self.kinect_node.get_body(0) as KinectBody
+		for i in range(6):
+			var b = self.kinect_node.get_body(i) as KinectBody
+			if !b.valid:
+				continue
+			if i == current_body:
+				current_valid = true
+			var pos = b.get_joint_position(KinectBody.JointID_SpineBase)
+			var score = (Vector2(pos.x, pos.z) - Vector2(0.0, -2.5)).length()
+			if best_id == -1 || score < best_score:
+				best_id = i
+				best_score = score
+
+		# couldn't find no body
+		if best_id == -1:
+			return
+		if current_body == -1 || !current_valid:
+			current_body = best_id
+			body_timer = Time.get_ticks_usec()
+		elif best_id == prev_best_candidate:
+			# Test timer
+			if Time.get_ticks_usec() >= body_timer:
+				current_body = best_id
+				# Assign new current body
+		else:
+			body_timer = Time.get_ticks_usec() + 2000000 # 2 seconds
+		prev_best_candidate = best_id
+
+		assert(current_body != -1)
+
+
+		var body = self.kinect_node.get_body(current_body)
 
 		# Acquire ground plane from the kinect
 		var plane_direction = Vector3(
@@ -257,10 +305,10 @@ func _process(delta: float) -> void:
 				## var bubble = kinect_body_node.instantiate()
 				#var bubble = self.get_node("Bubble_" + str(bone_index) + "_" + str(i))
 				#bubble.set_position(pos)
-			for i in range(VISUAL_COUNT):
+			for i in range(bone_densities[bone_index]):
 				var bubble = self.get_node("VisualBubble_" + str(bone_index) + "_" + str(i))
 
 				var pos = a.lerp(b, bubble.tangent_offset);
 				var tangent = (b - a).normalized();
 				var bitangent = Vector3(-tangent.y, tangent.x, 0)
-				bubble.target_position = pos + bitangent * bubble.bitangent_offset;
+				bubble.target_position = pos + bitangent * bubble.bitangent_offset * (player_size / 5.0);
