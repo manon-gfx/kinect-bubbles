@@ -10,7 +10,7 @@ var target_scale = 1.0
 var delayed_pop_time: int = -1;
 var play_sound = 0
 
-const SPEED = 25.0;
+const SPEED = 100.0;
 
 func pop(time_offset: float, play_sound: int) -> void:
 	self.play_sound = play_sound
@@ -36,14 +36,14 @@ func _process(delta: float) -> void:
 			$AudioStreamPlayer.play()
 		$AnimatedSprite3D.play("pop")
 		delayed_pop_time = -1
-	
-	var real_target_scale = target_scale	
+
+	var real_target_scale = target_scale
 	var kinect_player = self.get_parent()
 	if kinect_player.name == "KinectPlayer": # WTF Godot
 		real_target_scale = target_scale * kinect_player.player_size
-	
+
 	set_scale(scale.lerp(Vector3(real_target_scale, real_target_scale, real_target_scale), delta))
-	
+
 	var speed = SPEED;
 	#var diff = target_position - self.position
 	#var direction = diff.normalized()
@@ -61,6 +61,6 @@ func _process(delta: float) -> void:
 
 	# self.set_position(self.position.lerp + velocity * delta)
 
-	var new_pos = self.position.lerp(target_position, delta * real_speed)
+	var new_pos = self.position.lerp(target_position, clamp(delta * real_speed, 0.0, 1.0))
 	self.set_position(new_pos)
 	pass
